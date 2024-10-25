@@ -1,0 +1,141 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: 'Sans';
+    src: url('font/DMSans_24pt-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'Omegle';
+    src: url('font/OMEGLE.otf');
+}
+
+body{
+    background: linear-gradient(to left bottom, #F3F1C4, #FFFEE9);
+}
+
+.circle{
+    width: 50em;
+    height: 50em;
+    border-radius: 100%;
+    position: fixed;
+    border: 1px solid #94964A;
+    z-index: -1;
+    box-shadow: 6px -3px 6px 0px rgba(0, 0, 0, 0.212);
+    z-index: -1;
+}
+
+#cir1{
+    background: linear-gradient(to left bottom, #F9FC7D 30%, #94964A);
+    bottom: -27em;
+    left: 0em;
+}
+
+#cir2{
+    background: linear-gradient(to left bottom, #F9FC7D 50%, #94964A);
+    right: -2em;
+    top: -20em;
+}
+
+main{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* section{
+    width: 30%;
+    height: 50%;
+    background: linear-gradient(to bottom, #ffffb66e, #f5d1f269);
+    backdrop-filter: blur(20px);
+    border: 1px solid white;
+    border-radius: 20px;
+} */
+
+form{
+    width: 60%;
+    height: 55vh;
+} 
+
+legend{
+    font-family: Omegle;
+    font-size: 4em;
+    text-align: center;
+    color: #65681e;
+}
+
+fieldset{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: linear-gradient(to bottom, #ffffb66e, #f5d1f269);
+    backdrop-filter: blur(20px);
+    border: 2px solid white;
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+#esquerda, #direita{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+form div input:not(.botao), #fUsuario{
+    background-color: transparent;
+    width: 80%;
+    height: 12%;
+    border: 2px solid white;
+    border-radius: 15px;
+    padding-left: 1em;
+}
+
+#fUsuario label img{
+    width: 10%;
+    height: 90%;
+}
+
+#fUsuario label{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+input::placeholder, #fUsuario p{
+    color: #303030;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#botoes{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 12%;
+    gap: 10px;
+}
+
+.botao{
+    background-color: #65681e;
+    width: 40%;
+    height: 100%;
+    border: 1px solid #65681e;
+    border-radius: 20px;
+    color: white;
+    font-family: Sans;
+    transition: 0.5s;
+}
+
+.botao:hover {
+    background-color: #7d802a;
+    border: 1px solid #7d802a;
+}

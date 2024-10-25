@@ -1,5 +1,7 @@
 package model.data;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
@@ -29,12 +31,56 @@ public class UserDAO {
             em.getTransaction().commit();
 
             return true;
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+
         } finally {
             em.close();
+            
         }
+    }
+
+    public boolean delete(User user) {
+        EntityManager em = emf.createEntityManager();
+			
+		try {
+			em.getTransaction().begin();
+			em.remove(user);
+			em.getTransaction().commit();
+			return true;
+
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+
+		}
+		finally {
+			em.close();
+
+		}
+    }
+
+    @SuppressWarnings("unchecked")
+    public ArrayList<User> getAllUsers() {
+        EntityManager em = emf.createEntityManager();
+        ArrayList<User> listUsers = new ArrayList<User>();
+
+        try {
+            Query query = em.createQuery("from " + User.class.getName());		
+			listUsers = (ArrayList<User>) query.getResultList();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            em.close();
+
+        }
+
+        return listUsers;
     }
 
     public User findById(String id) {
@@ -43,10 +89,13 @@ public class UserDAO {
 
         try {
             user = em.find(User.class, id);
+
         } catch (Exception e) {
             e.printStackTrace();
+            
         } finally {
             em.close();
+
         }
 
         return user;
@@ -60,10 +109,13 @@ public class UserDAO {
             Query query = em.createQuery("from " + User.class.getName() + " where username = :u");
             query.setParameter("u", username);
             user = (User) query.getSingleResult();
+
         } catch (Exception e) {
             e.printStackTrace();
+
         } finally {
             em.close();
+
         }
 
         return user;
@@ -77,10 +129,13 @@ public class UserDAO {
             Query query = em.createQuery("from " + User.class.getName() + " where email = :e");
             query.setParameter("e", email);
             user = (User) query.getSingleResult();
+
         } catch (Exception e) {
             e.printStackTrace();
+
         } finally {
             em.close();
+
         }
 
         return user;
