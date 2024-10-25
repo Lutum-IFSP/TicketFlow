@@ -1,7 +1,6 @@
 package model.data;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
@@ -64,7 +63,7 @@ public class UserDAO {
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<User> getAllUsers() {
+    public ArrayList<User> getAll() {
         EntityManager em = emf.createEntityManager();
         ArrayList<User> listUsers = new ArrayList<User>();
 

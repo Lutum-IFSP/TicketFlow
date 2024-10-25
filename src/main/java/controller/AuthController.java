@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,9 +17,10 @@ import model.data.UserDAO;
 import model.entity.User;
 import model.enums.Role;
 
-@WebServlet("/UserController")
-public class UserController extends HttpServlet {
+@WebServlet("/auth/*")
+public class AuthController extends HttpServlet {
     UserDAO dao;
+    @SuppressWarnings("unused")
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("ticketflow");
 
     @Override
@@ -29,42 +31,44 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        switch (req.getParameter("oprt")) {
-            case "sair":
+        String path = req.getRequestURI();
+        switch (path.substring(path.lastIndexOf("/") + 1, path.length())) {
+            case "logout":
                 logout(req, resp);
                 break;
 
-            case "deletar": 
+            case "delete": 
                 delete(req, resp);
                 break;
 
-            case "listar": 
+            case "list": 
                 list(req, resp);
                 break;
 
-            case "buscar":
+            case "find":
                 find(req, resp);
                 break;
         
             default:
-                System.out.println("Error! Operation not found!");
+                System.out.println("Error! Request not found!");
                 break;
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        switch (req.getParameter("oprt")) {
-            case "cadastrar":
+        String path = req.getRequestURI();
+        switch (path.substring(path.lastIndexOf("/") + 1, path.length())) {
+            case "register":
                 registerUser(req, resp);
                 break;
             
-            case "entrar":
+            case "login":
                 login(req, resp);
                 break;
             
             default:
-                System.out.println("Error! Operation not found!");
+                System.out.println("Error! Request not found!");
                 break;
         }
     }
@@ -88,9 +92,10 @@ public class UserController extends HttpServlet {
         
         User user = dao.findByUsername(username);
         
-        if(user != null && user.getPassword().equals(password)) {
+        if(user != null && BCrypt.verifyer().verify(password.toCharArray(), user.getPassword().toCharArray()).verified) {
             HttpSession session = req.getSession();
 			session.setAttribute("user", user);
+            session.setMaxInactiveInterval(60*60*24*7);
 			
 			req.getRequestDispatcher("/tickets.html").forward(req, resp);
 		}
@@ -117,7 +122,7 @@ public class UserController extends HttpServlet {
 
     private void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        ArrayList<User> listUsers = dao.getAllUsers();
+        ArrayList<User> listUsers = dao.getAll();
         
         req.setAttribute("listUsers", listUsers);
         req.getRequestDispatcher("/tickets.html").forward(req, resp);
