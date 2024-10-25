@@ -14,6 +14,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import model.enums.Priority;
 import model.enums.Stage;
 
 @Entity
@@ -27,6 +28,8 @@ public class Ticket {
     private String tags;
     @Enumerated(EnumType.STRING)
     private Stage stage;
+    @Enumerated(EnumType.STRING)
+    private Priority priority;
     @CreationTimestamp
     private Instant created;
     @UpdateTimestamp
@@ -35,4 +38,12 @@ public class Ticket {
     @ManyToOne(optional = false)
     @NotBlank
     private User user;
+    
+    public Ticket(@NotBlank String title, String tags, Stage stage, Priority priority, @NotBlank User user) {
+        this.title = title;
+        this.tags = tags;
+        this.stage = stage;
+        this.priority = priority;
+        this.user = user;
+    }
 }

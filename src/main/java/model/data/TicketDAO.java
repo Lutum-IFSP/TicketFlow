@@ -1,6 +1,7 @@
 package model.data;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,6 +19,7 @@ public class TicketDAO {
 
     public boolean insert(Ticket ticket) {
         EntityManager em = emf.createEntityManager();
+        ticket.setId(UUID.randomUUID().toString());
 
         try {
             em.getTransaction().begin();
@@ -64,5 +66,37 @@ public class TicketDAO {
         }
 
         return ticket;
+    }
+
+    public boolean remove(String id) {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            Ticket ticket = em.find(Ticket.class, id);
+            em.getTransaction().begin();
+            em.remove(ticket);
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            em.close();
+        }
+    }
+    public boolean update(Ticket ticket) {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            em.merge(ticket);
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            em.close();
+        }
     }
 }

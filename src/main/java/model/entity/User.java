@@ -30,4 +30,11 @@ public class User {
     private Role role;
     @CreationTimestamp
     private Instant creation;
+
+    public User(@NotBlank String username, @NotBlank String email, @NotBlank String password, Role role) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 }
