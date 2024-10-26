@@ -1,6 +1,11 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
+    <c:set var="url">${pageContext.request.requestURL}</c:set>
+    <base href="${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TicketFlow</title>
@@ -18,7 +23,7 @@
     <main>
         <div class="sidebar">
             <div class="logo-details">
-                <i class="bx icon" style="background-image: url(./icone_ticketflow.svg); background-size: contain; background-position: center; margin-right: .5vw; filter: brightness(3);"></i>
+                <i class="bx icon" style="background-image: url(image/icon_ticketflow.svg); background-size: contain; background-position: center; margin-right: .5vw; filter: brightness(3);"></i>
                 <div class="logo_name">TicketFlow</div>
                 <i class="bx bx-menu" id="btn"></i>
             </div>
@@ -72,7 +77,7 @@
                 </li>
                 <li class="profile">
                     <div class="profile-details">
-                        <img src="./image/ticketsPage/user.webp" alt="profileImg" />
+                        <img src="image/ticketsPage/user.webp" alt="profileImg" />
                         <div class="name_job">
                             <div class="name">Shrek</div>
                             <div class="job">Programador</div>

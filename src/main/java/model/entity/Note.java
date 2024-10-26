@@ -13,11 +13,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
-public class Post {
+public class Note {
     @Id
     private String id;
     @NotBlank
@@ -25,7 +27,7 @@ public class Post {
     @CreationTimestamp
     private Instant send;
     @UpdateTimestamp
-    private Instant update;
+    private Instant updated;
     @NotNull
     @ManyToOne(optional = false)
     private User poster;
@@ -33,7 +35,7 @@ public class Post {
     @ManyToOne(optional = false)
     private Ticket ticket;
 
-    public Post(@NotBlank String text, @NotNull User poster, @NotNull Ticket ticket) {
+    public Note(@NotBlank String text, @NotNull User poster, @NotNull Ticket ticket) {
         this.text = text;
         this.poster = poster;
         this.ticket = ticket;

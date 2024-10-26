@@ -12,10 +12,12 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import model.enums.Role;
 
 @Entity
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class User {
     @Id
@@ -26,10 +28,12 @@ public class User {
     private String email;
     @NotBlank
     private String password;
+
     @Enumerated(EnumType.STRING)
     private Role role;
+
     @CreationTimestamp
-    private Instant creation;
+    private Instant created;
 
     public User(@NotBlank String username, @NotBlank String email, @NotBlank String password, Role role) {
         this.username = username;

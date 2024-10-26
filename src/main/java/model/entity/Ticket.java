@@ -14,11 +14,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import model.enums.Priority;
 import model.enums.Stage;
 
 @Entity
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class Ticket {
     @Id

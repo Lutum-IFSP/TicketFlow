@@ -7,23 +7,23 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
-import model.entity.Post;
+import model.entity.Note;
 import model.entity.Ticket;
 
-public class PostDAO {
+public class NoteDAO {
     private EntityManagerFactory emf;
 
-    public PostDAO(EntityManagerFactory emf) {
+    public NoteDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
-    public boolean insert(Post post) {
+    public boolean insert(Note note) {
         EntityManager em = emf.createEntityManager();
-        post.setId(UUID.randomUUID().toString());
+        note.setId(UUID.randomUUID().toString());
 
         try {
             em.getTransaction().begin();
-            em.persist(post);
+            em.persist(note);
             em.getTransaction().commit();
             return true;
         } catch (Exception e) {
@@ -35,44 +35,44 @@ public class PostDAO {
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<Post> getAll(Ticket ticket) {
-        ArrayList<Post> posts = new ArrayList<>();
+    public ArrayList<Note> getAll(Ticket ticket) {
+        ArrayList<Note> notes = new ArrayList<>();
         EntityManager em = emf.createEntityManager();
 
         try {
-            Query query = em.createQuery(String.format("from %s where ticket = :t", Post.class.getName()));
+            Query query = em.createQuery(String.format("from %s where ticket = :t", Note.class.getName()));
             query.setParameter("t", ticket);
-            posts = (ArrayList<Post>) query.getResultList();
+            notes = (ArrayList<Note>) query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             em.close();
         }
 
-        return posts;
+        return notes;
     }
 
-    public Post findById(String id) {
+    public Note findById(String id) {
         EntityManager em = emf.createEntityManager();
-        Post post = null;
+        Note note = null;
 
         try {
-            post = em.find(Post.class, id);
+            note = em.find(Note.class, id);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             em.close();
         }
 
-        return post;
+        return note;
     }
 
-    public boolean update(Post post) {
+    public boolean update(Note note) {
         EntityManager em = emf.createEntityManager();
         
         try {
             em.getTransaction().begin();
-            em.merge(post);
+            em.merge(note);
             em.getTransaction().commit();
             return true;
         } catch (Exception e) {
@@ -83,12 +83,12 @@ public class PostDAO {
         }
     }
 
-    public boolean remove(Post post) {
+    public boolean remove(Note note) {
         EntityManager em = emf.createEntityManager();
         
         try {
             em.getTransaction().begin();
-            em.remove(post);
+            em.remove(note);
             em.getTransaction().commit();
             return true;
         } catch (Exception e) {

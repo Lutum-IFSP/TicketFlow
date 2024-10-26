@@ -1,6 +1,11 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
+    <c:set var="url">${pageContext.request.requestURL}</c:set>
+    <base href="${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/cadastroUsuario.css">
@@ -10,7 +15,7 @@
     <div id="cir1" class="circle"></div>
     <div id="cir2" class="circle"></div>
     <main>
-        <form action="#" action="post">
+        <form action="auth/register" method="POST">
             <fieldset>
                 <legend>CADASTRO</legend>
                 <div id="esquerda">
@@ -20,15 +25,15 @@
                     <input type="email" id="email" name="email" placeholder="E-mail" required>
                     <div id="fUsuario">
                         <label for="foto">
-                            <img src="image/casdastroUsuario/imgUser.png">
+                            <img src="image/cadastroUsuario/imgUser.png">
                             <p>Escolha uma foto para o seu perfil</p>
                         </label>
-                        <input type="file" name="foto" id="foto" required style="display: none;">
+                        <input type="file" name="foto" id="foto" style="display: none;">
                     </div>
                 </div>
                 <div id="direita">
                     <label for="senha"></label>
-                    <input type="password" id="senha" name="senha" placeholder="Password" required>
+                    <input type="password" id="senha" name="password" placeholder="Password" required>
                     <label for="confirmarSenha"></label>
                     <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Confirm password" required>
                     <div id="botoes">
@@ -45,14 +50,14 @@
     let senhaC = document.getElementById('confirmarSenha');
 
     function validarSenha() {
-    if (senha.value != senhaC.value) {
-        senhaC.setCustomValidity("Senhas diferentes!");
-        senhaC.reportValidity();
-        return false;
-    } else {
-        senhaC.setCustomValidity("");
-        return true;
-    }
+        if (senha.value != senhaC.value) {
+            senhaC.setCustomValidity("Senhas diferentes!");
+            senhaC.reportValidity();
+            return false;
+        } else {
+            senhaC.setCustomValidity("");
+            return true;
+        }
     }
 
     senhaC.addEventListener('input', validarSenha);

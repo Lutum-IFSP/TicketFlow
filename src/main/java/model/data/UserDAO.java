@@ -5,9 +5,10 @@ import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
+import model.auth.Encryptor;
 import model.entity.User;
 
 public class UserDAO {
@@ -19,7 +20,7 @@ public class UserDAO {
     }
 
     public boolean insert(User user) {
-        String password = BCrypt.withDefaults().hashToString(14, user.getPassword().toCharArray());
+        String password = Encryptor.encrypt(user.getPassword());
         user.setPassword(password);
         user.setId(UUID.randomUUID().toString());
         EntityManager em = emf.createEntityManager();
@@ -30,14 +31,11 @@ public class UserDAO {
             em.getTransaction().commit();
 
             return true;
-
         } catch (Exception e) {
             e.printStackTrace();
             return false;
-
         } finally {
             em.close();
-            
         }
     }
 
@@ -49,16 +47,13 @@ public class UserDAO {
 			em.remove(user);
 			em.getTransaction().commit();
 			return true;
-
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			return false;
-
 		}
 		finally {
 			em.close();
-
 		}
     }
 
@@ -70,13 +65,10 @@ public class UserDAO {
         try {
             Query query = em.createQuery("from " + User.class.getName());		
 			listUsers = (ArrayList<User>) query.getResultList();
-
         } catch (Exception e) {
             e.printStackTrace();
-
         } finally {
             em.close();
-
         }
 
         return listUsers;
@@ -88,13 +80,12 @@ public class UserDAO {
 
         try {
             user = em.find(User.class, id);
-
+        } catch (NoResultException e) {
+            user = null;
         } catch (Exception e) {
             e.printStackTrace();
-            
         } finally {
             em.close();
-
         }
 
         return user;
@@ -108,13 +99,12 @@ public class UserDAO {
             Query query = em.createQuery("from " + User.class.getName() + " where username = :u");
             query.setParameter("u", username);
             user = (User) query.getSingleResult();
-
+        } catch (NoResultException e) {
+            user = null;
         } catch (Exception e) {
             e.printStackTrace();
-
         } finally {
             em.close();
-
         }
 
         return user;
@@ -128,13 +118,12 @@ public class UserDAO {
             Query query = em.createQuery("from " + User.class.getName() + " where email = :e");
             query.setParameter("e", email);
             user = (User) query.getSingleResult();
-
+        } catch (NoResultException e) {
+            user = null;
         } catch (Exception e) {
             e.printStackTrace();
-
         } finally {
             em.close();
-
         }
 
         return user;

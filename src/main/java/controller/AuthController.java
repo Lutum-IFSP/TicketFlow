@@ -6,27 +6,26 @@ import java.util.ArrayList;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.auth.Encryptor;
 import model.data.UserDAO;
 import model.entity.User;
 import model.enums.Role;
 
 @WebServlet("/auth/*")
 public class AuthController extends HttpServlet {
-    UserDAO dao;
-    @SuppressWarnings("unused")
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("ticketflow");
+    UserDAO dao;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        dao = new UserDAO(null);
+        dao = new UserDAO(emf);
     }
 
     @Override
@@ -76,32 +75,36 @@ public class AuthController extends HttpServlet {
     private void registerUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String email = req.getParameter("email");
-        String password = req.getParameter("senha");
-        Role role = Role.valueOf(req.getParameter("role"));
+        String password = req.getParameter("password");
         
-        User user = new User("", username, email, password, role, null);
-        boolean status = dao.insert(user);
+        if (dao.findByUsername(username) == null) {
+            User user = new User(username, email, password, Role.USER);
+            boolean status = dao.insert(user);
 
-        req.setAttribute("status", status);
-        req.getRequestDispatcher("/tickets.html").forward(req, resp);
+            req.setAttribute("status", status);
+            req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
+        } else {
+            req.setAttribute("status", false);
+            req.getRequestDispatcher("/cadastroUsuario.jsp").forward(req, resp);
+        }
     }
     
     private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
-        String password = req.getParameter("senha");
+        String password = req.getParameter("password");
         
         User user = dao.findByUsername(username);
         
-        if(user != null && BCrypt.verifyer().verify(password.toCharArray(), user.getPassword().toCharArray()).verified) {
+        if(user != null && Encryptor.verifyPassword(password, user.getPassword())) {
             HttpSession session = req.getSession();
 			session.setAttribute("user", user);
             session.setMaxInactiveInterval(60*60*24*7);
 			
-			req.getRequestDispatcher("/tickets.html").forward(req, resp);
+			req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
 		}
 		else {
             req.setAttribute("error", true);
-			req.getRequestDispatcher("/index.html").forward(req, resp);
+			req.getRequestDispatcher("/index.jsp").forward(req, resp);
 		}
     }
     
@@ -117,7 +120,7 @@ public class AuthController extends HttpServlet {
         User user = dao.findByUsername(username);
         
         req.setAttribute("user", user);
-        req.getRequestDispatcher("/tickets.html").forward(req, resp);
+        req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
     }
 
     private void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -125,7 +128,7 @@ public class AuthController extends HttpServlet {
         ArrayList<User> listUsers = dao.getAll();
         
         req.setAttribute("listUsers", listUsers);
-        req.getRequestDispatcher("/tickets.html").forward(req, resp);
+        req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
     }
         
     private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -135,6 +138,6 @@ public class AuthController extends HttpServlet {
 
         boolean status = dao.delete(user);
         req.setAttribute("status", status);
-        req.getRequestDispatcher("/index.html").forward(req, resp);
+        req.getRequestDispatcher("/index.jsp").forward(req, resp);
     }
 }

@@ -5,12 +5,12 @@
 
 @font-face {
     font-family: 'Sans';
-    src: url('font/DMSans_24pt-Medium.ttf');
+    src: url('./font/DMSans_24pt-Medium.ttf');
 }
 
 @font-face {
     font-family: 'Omegle';
-    src: url('font/OMEGLE.otf');
+    src: url('./font/OMEGLE.otf');
 }
 
 body{

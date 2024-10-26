@@ -9,10 +9,10 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
 		transaction-type="RESOURCE_LOCAL">
 		<properties>
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:mysql://localhost:3306/bancoTarefas" />
+				value="jdbc:mysql://localhost:3306/ticketflow" />
 
 			<property name="javax.persistence.jdbc.driver"
-				value="com.mysql.jdbc.Driver" />
+				value="com.mysql.cj.jdbc.Driver" />
 
 			<property name="javax.persistence.jdbc.user"
 				value="ticketflow" />
