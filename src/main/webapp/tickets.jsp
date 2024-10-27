@@ -87,6 +87,110 @@
                 </li>
             </ul>
         </div>
+
+        <div id="listasTarefas">
+            <div id="listaUrgente" class="lista">
+                <ul>
+                    <h3>High Urgency</h3>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div id="listaMediaUrgencia" class="lista">
+                <ul>
+                    <h3>Medium Urgency</h3>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="listaBaixaUrgencia" class="lista">
+                <ul>
+                    <h3>Low Urgency</h3>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                    <li>
+                        <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
+                        <span class="title">Teste</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </main>
     <script>
         let sidebar = document.querySelector(".sidebar");
