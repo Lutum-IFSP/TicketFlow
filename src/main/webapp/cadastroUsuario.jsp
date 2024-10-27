@@ -23,12 +23,12 @@
                     <input type="text" id="username" name="username" placeholder="Username" required>
                     <label for="email"></label>
                     <input type="email" id="email" name="email" placeholder="E-mail" required>
-                    <div id="fUsuario">
-                        <label for="foto">
-                            <img src="image/cadastroUsuario/imgUser.png">
-                            <p>Escolha uma foto para o seu perfil</p>
-                        </label>
-                        <input type="file" name="foto" id="foto" style="display: none;">
+                    <div d="cargo">
+                        <label for="cargo">Selecione o cargo no novo usuário</label>
+                        <select id="cargo" name="cargo">
+                            <option value="administrador">Administrador</option>
+                            <option value="desenvolverdor">Desenvolverdor</option>
+                        </select>
                     </div>
                 </div>
                 <div id="direita">
