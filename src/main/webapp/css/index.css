@@ -80,6 +80,9 @@ legend{
     font-size: 4em;
     text-align: center;
     color: #65681e;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 
 form input:not(.botao){
@@ -103,4 +106,9 @@ input::placeholder{
     border-radius: 20px;
     color: white;
     font-family: Sans;
+}
+
+#botao:hover {
+    filter: brightness(90%);
+    cursor:pointer;
 }

@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
 import model.auth.Encryptor;
@@ -80,6 +81,8 @@ public class UserDAO {
 
         try {
             user = em.find(User.class, id);
+        } catch (NonUniqueResultException e) {
+            user = new User();
         } catch (NoResultException e) {
             user = null;
         } catch (Exception e) {
@@ -99,6 +102,8 @@ public class UserDAO {
             Query query = em.createQuery("from " + User.class.getName() + " where username = :u");
             query.setParameter("u", username);
             user = (User) query.getSingleResult();
+        } catch (NonUniqueResultException e) {
+            user = new User();
         } catch (NoResultException e) {
             user = null;
         } catch (Exception e) {
@@ -118,6 +123,8 @@ public class UserDAO {
             Query query = em.createQuery("from " + User.class.getName() + " where email = :e");
             query.setParameter("e", email);
             user = (User) query.getSingleResult();
+        } catch (NonUniqueResultException e) {
+            user = new User();
         } catch (NoResultException e) {
             user = null;
         } catch (Exception e) {

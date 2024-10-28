@@ -6,26 +6,39 @@ import java.util.ArrayList;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import com.cloudinary.Cloudinary;
+
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 import model.auth.Encryptor;
 import model.data.UserDAO;
 import model.entity.User;
 import model.enums.Role;
+import model.services.ImageService;
 
+@MultipartConfig
 @WebServlet("/auth/*")
 public class AuthController extends HttpServlet {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("ticketflow");
     UserDAO dao;
+    private Dotenv dotenv;
+    private Cloudinary cloudinary;
+    private ImageService imageService;
 
     @Override
     public void init() throws ServletException {
         super.init();
+        dotenv = Dotenv.load();
+        cloudinary = new Cloudinary(dotenv.get("CLOUDINARY_URL"));
         dao = new UserDAO(emf);
+        imageService = new ImageService(cloudinary);
     }
 
     @Override
@@ -71,20 +84,23 @@ public class AuthController extends HttpServlet {
                 break;
         }
     }
-    
+
     private void registerUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
+        Part userImage = req.getPart("foto");
+        Role role = Role.valueOf(req.getParameter("role"));
+        String url = imageService.uploadPart(userImage, username);
         
-        if (dao.findByUsername(username) == null) {
-            User user = new User(username, email, password, Role.USER);
+        if (dao.findByUsername(username) == null || dao.findByEmail(email) == null) {
+            User user = new User(username, email, password, role, url);
             boolean status = dao.insert(user);
 
             req.setAttribute("status", status);
-            req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
         } else {
-            req.setAttribute("status", false);
+            req.setAttribute("error", true);
             req.getRequestDispatcher("/cadastroUsuario.jsp").forward(req, resp);
         }
     }

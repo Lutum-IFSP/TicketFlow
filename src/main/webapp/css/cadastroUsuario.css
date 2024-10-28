@@ -5,12 +5,12 @@
 
 @font-face {
     font-family: 'Sans';
-    src: url('./font/DMSans_24pt-Medium.ttf');
+    src: url('font/DMSans_24pt-Medium.ttf');
 }
 
 @font-face {
     font-family: 'Omegle';
-    src: url('./font/OMEGLE.otf');
+    src: url('font/OMEGLE.otf');
 }
 
 body{
@@ -67,6 +67,9 @@ legend{
     font-size: 4em;
     text-align: center;
     color: #65681e;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 
 fieldset{
@@ -90,7 +93,7 @@ fieldset{
     justify-content: space-evenly;
 }
 
-form div input:not(.botao), #fUsuario{
+form div input:not(.botao){
     background-color: transparent;
     width: 80%;
     height: 12%;
@@ -99,19 +102,27 @@ form div input:not(.botao), #fUsuario{
     padding-left: 1em;
 }
 
-#fUsuario label img{
-    width: 10%;
-    height: 90%;
+#cargo{
+    height: 30%;
+    width: 90%;
+    margin-left: 1em;
 }
 
-#fUsuario label{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
+label{
+    margin-left: 1em;
 }
 
-input::placeholder, #fUsuario p{
+select{
+    background-color: transparent;
+    width: 100%;
+    height: 70%;
+    border: 2px solid white;
+    border-radius: 15px;
+    padding-left: 1em;
+    margin-top: 0.5em;
+}
+
+input::placeholder, select, label{
     color: #303030;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
@@ -136,6 +147,35 @@ input::placeholder, #fUsuario p{
 }
 
 .botao:hover {
-    background-color: #7d802a;
-    border: 1px solid #7d802a;
+    filter: brightness(90%);
+    cursor:pointer;
+}
+
+form div input:not(.botao), #fUsuario{
+    background-color: transparent;
+    width: 80%;
+    height: 12%;
+    border: 2px solid white;
+    border-radius: 15px;
+    padding-left: 1em;
+}
+
+#fUsuario label img{
+    width: 10%;
+    height: auto;
+}
+
+#fUsuario label{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    height: 100%;
+    width: 90%;
+}
+
+input::placeholder, #fUsuario p{
+    color: #303030;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }

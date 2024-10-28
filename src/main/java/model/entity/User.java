@@ -28,17 +28,17 @@ public class User {
     private String email;
     @NotBlank
     private String password;
-
+    private String image;
     @Enumerated(EnumType.STRING)
     private Role role;
-
     @CreationTimestamp
     private Instant created;
 
-    public User(@NotBlank String username, @NotBlank String email, @NotBlank String password, Role role) {
+    public User(@NotBlank String username, @NotBlank String email, @NotBlank String password, Role role, String url) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.image = url;
     }
 }
