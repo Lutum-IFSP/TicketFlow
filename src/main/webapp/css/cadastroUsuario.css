@@ -6,10 +6,12 @@
 @font-face {
     font-family: 'Sans';
     src: url('font/DMSans_24pt-Medium.ttf');
+    src: url('font/DMSans_24pt-Medium.ttf');
 }
 
 @font-face {
     font-family: 'Omegle';
+    src: url('font/OMEGLE.otf');
     src: url('font/OMEGLE.otf');
 }
 
@@ -94,6 +96,7 @@ fieldset{
 }
 
 form div input:not(.botao){
+form div input:not(.botao){
     background-color: transparent;
     width: 80%;
     height: 12%;
@@ -122,6 +125,7 @@ select{
     margin-top: 0.5em;
 }
 
+input::placeholder, select, label{
 input::placeholder, select, label{
     color: #303030;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
