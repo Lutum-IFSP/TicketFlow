@@ -129,7 +129,9 @@ _Below is how to install and test TicketFlow_
 
 ## Contributors
 
-![https://github.com/Lutum-IFSP/TicketFlow/graphs/contributors](https://contrib.rocks/image?repo=Lutum-IFSP/TicketFlow)
+<a href="https://github.com/Lutum-IFSP/TicketFlow/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Lutum-IFSP/TicketFlow" />
+</a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
