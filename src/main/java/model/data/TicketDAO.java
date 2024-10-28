@@ -5,9 +5,12 @@ import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.OrderBy;
 import javax.persistence.Query;
 
 import model.entity.Ticket;
+import model.entity.User;
+import model.enums.Priority;
 
 public class TicketDAO {
     private EntityManagerFactory emf;
@@ -98,5 +101,79 @@ public class TicketDAO {
         } finally {
             em.close();
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    @OrderBy("priority DESC")
+    public ArrayList<Ticket> getAll() {
+        EntityManager em = emf.createEntityManager();
+        ArrayList<Ticket> listTickets = new ArrayList<Ticket>();
+
+        try {
+            Query query = em.createQuery("from " + Ticket.class.getName() + " where 1");		
+			listTickets = (ArrayList<Ticket>) query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return listTickets;
+    }
+
+    @SuppressWarnings("unchecked")
+    public ArrayList<Ticket> getByPriority(Priority priority) {
+        EntityManager em = emf.createEntityManager();
+        ArrayList<Ticket> listTickets = new ArrayList<Ticket>();
+
+        try {
+            Query query = em.createQuery("from " + Ticket.class.getName() + " where priority = :p");
+            query.setParameter("p", priority);		
+			listTickets = (ArrayList<Ticket>) query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return listTickets;
+    }
+
+    @SuppressWarnings("unchecked")
+    @OrderBy("priority DESC")
+    public ArrayList<Ticket> getByUser(User user) {
+        EntityManager em = emf.createEntityManager();
+        ArrayList<Ticket> listTickets = new ArrayList<Ticket>();
+
+        try {
+            Query query = em.createQuery("from " + Ticket.class.getName() + " where user = :u");	
+            query.setParameter("u", user);	
+			listTickets = (ArrayList<Ticket>) query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return listTickets;
+    }
+
+    @SuppressWarnings("unchecked")
+    public ArrayList<Ticket> getByUserAndPriority(User user, Priority priority) {
+        EntityManager em = emf.createEntityManager();
+        ArrayList<Ticket> listTickets = new ArrayList<Ticket>();
+
+        try {
+            Query query = em.createQuery("from " + Ticket.class.getName() + " where user = :u and priority = :p");	
+            query.setParameter("u", user);	
+            query.setParameter("p", priority);	
+			listTickets = (ArrayList<Ticket>) query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return listTickets;
     }
 }

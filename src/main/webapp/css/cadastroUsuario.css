@@ -78,7 +78,7 @@ fieldset{
     display: flex;
     flex-direction: row;
     align-items: center;
-    background: linear-gradient(to bottom, #ffffb66e, #f5d1f269);
+    background: linear-gradient(to bottom, #ffffb66e, #e7f5d169);
     backdrop-filter: blur(20px);
     border: 2px solid white;
     border-radius: 20px;
@@ -95,7 +95,6 @@ fieldset{
     justify-content: space-evenly;
 }
 
-form div input:not(.botao){
 form div input:not(.botao){
     background-color: transparent;
     width: 80%;
@@ -125,7 +124,6 @@ select{
     margin-top: 0.5em;
 }
 
-input::placeholder, select, label{
 input::placeholder, select, label{
     color: #303030;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;

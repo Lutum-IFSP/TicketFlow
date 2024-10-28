@@ -32,7 +32,7 @@
                         <label for="cargo" style="user-select: none;">Selecione o cargo do novo usuário</label>
                         <select id="cargo" name="role">
                             <option value="ADMIN">Administrador</option>
-                            <option value="TECHNICIAN">Desenvolvedor</option>
+                            <option value="TECHNICIAN">Técnico</option>
                             <option value="USER">Usuário</option>
                         </select>
                     </div>

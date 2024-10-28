@@ -1,7 +1,14 @@
 package model.enums;
 
 public enum Priority {
-    HIGH,
-    MID,
-    LOW
+    UNDEFINED(0),
+    LOW(1),
+    MID(2),
+    HIGH(3);
+
+    public int value;
+
+    Priority(int value) {
+        this.value = value;
+    }
 }

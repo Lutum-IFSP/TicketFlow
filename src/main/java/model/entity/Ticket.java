@@ -30,7 +30,7 @@ public class Ticket {
     private String tags;
     @Enumerated(EnumType.STRING)
     private Stage stage;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private Priority priority;
     @CreationTimestamp
     private Instant created;

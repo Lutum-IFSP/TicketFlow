@@ -67,7 +67,7 @@ fieldset{
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    background: linear-gradient(to bottom, #ffffb66e, #f5d1f269);
+    background: linear-gradient(to bottom, #ffffb66e, #e7f5d169);
     backdrop-filter: blur(20px);
     border: 2px solid white;
     border-radius: 20px;
@@ -91,6 +91,9 @@ form input:not(.botao){
     height: 12%;
     border: 2px solid white;
     border-radius: 15px;
+}
+
+form input:not(#botao) {
     padding-left: 1em;
 }
 
@@ -105,6 +108,7 @@ input::placeholder{
     border: 1px solid #65681e;
     border-radius: 20px;
     color: white;
+    text-align: center;
     font-family: Sans;
 }
 

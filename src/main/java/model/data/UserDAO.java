@@ -64,7 +64,7 @@ public class UserDAO {
         ArrayList<User> listUsers = new ArrayList<User>();
 
         try {
-            Query query = em.createQuery("from " + User.class.getName());		
+            Query query = em.createQuery("from " + User.class.getName() + " where 1");		
 			listUsers = (ArrayList<User>) query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();

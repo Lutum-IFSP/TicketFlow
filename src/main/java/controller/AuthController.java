@@ -93,15 +93,15 @@ public class AuthController extends HttpServlet {
         Role role = Role.valueOf(req.getParameter("role"));
         String url = imageService.uploadPart(userImage, username);
         
-        if (dao.findByUsername(username) == null || dao.findByEmail(email) == null) {
+        if (dao.findByUsername(username) != null || dao.findByEmail(email) != null) {
+            req.setAttribute("error", true);
+            req.getRequestDispatcher("/cadastroUsuario.jsp").forward(req, resp);
+        } else {
             User user = new User(username, email, password, role, url);
             boolean status = dao.insert(user);
 
             req.setAttribute("status", status);
             req.getRequestDispatcher("/index.jsp").forward(req, resp);
-        } else {
-            req.setAttribute("error", true);
-            req.getRequestDispatcher("/cadastroUsuario.jsp").forward(req, resp);
         }
     }
     

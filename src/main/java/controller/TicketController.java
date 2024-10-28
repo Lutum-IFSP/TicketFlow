@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -10,7 +11,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.data.TicketDAO;
+import model.entity.Ticket;
+import model.entity.User;
+import model.enums.Priority;
+import model.enums.Role;
 
 @WebServlet(urlPatterns = "/ticket/*")
 public class TicketController extends HttpServlet {
@@ -53,7 +59,18 @@ public class TicketController extends HttpServlet {
     }
 
     private void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+        Role role = user.getRole();
+
+        if ( role == Role.ADMIN || role == Role.TECHNICIAN ) {
+            ArrayList<Ticket> listUndefined = dao.getByPriority(Priority.UNDEFINED);
+            ArrayList<Ticket> listLow = dao.getByPriority(Priority.LOW);
+            ArrayList<Ticket> listMid = dao.getByPriority(Priority.MID);
+            ArrayList<Ticket> listHigh = dao.getByPriority(Priority.HIGH);
+        } else {
+            
+        }
     }
 
     private void create(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
