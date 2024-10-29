@@ -17,6 +17,7 @@ import model.entity.Ticket;
 import model.entity.User;
 import model.enums.Priority;
 import model.enums.Role;
+import model.enums.Stage;
 
 @WebServlet(urlPatterns = "/ticket/*")
 public class TicketController extends HttpServlet {
@@ -68,8 +69,25 @@ public class TicketController extends HttpServlet {
             ArrayList<Ticket> listLow = dao.getByPriority(Priority.LOW);
             ArrayList<Ticket> listMid = dao.getByPriority(Priority.MID);
             ArrayList<Ticket> listHigh = dao.getByPriority(Priority.HIGH);
+
+            req.setAttribute("listUndefined", listUndefined);
+            req.setAttribute("listLow", listLow);
+            req.setAttribute("listMid", listMid);
+            req.setAttribute("listHigh", listHigh);
+
+            req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
         } else {
-            
+            ArrayList<Ticket> tmp = dao.getByUserAndStage(user, Stage.OPEN);
+            ArrayList<Ticket> listUnsolved = dao.getByUserAndStage(user, Stage.WIP);
+
+            listUnsolved.addAll(tmp);
+
+            ArrayList<Ticket> listSolved = dao.getByUserAndStage(user, Stage.FIXED);
+
+            req.setAttribute("listUnsolved", listUnsolved);
+            req.setAttribute("listSolved", listSolved);
+
+            req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
         }
     }
 

@@ -352,14 +352,18 @@ main{
     flex-direction: row;
     align-items: center;
     gap: 0.5em;
+    background-color: transparent;
     padding-left: 0.3em;
     height: 3em;
     font-family: RobotoMono;
     color: #282828;
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
 }
 
 .lista ul li:hover{
-    background: linear-gradient(to bottom, #c3c3b16e, #cad1ba69);
+    background-color: #c3c3b16e;
     cursor: pointer;
 }
 
@@ -478,6 +482,7 @@ h3{
     color: white;
     font-weight: 500;
     font-size: 1.3vw;
+    transition: 200ms;
 }
 
 #enviarTicket:hover{

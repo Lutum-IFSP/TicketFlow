@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import model.entity.Ticket;
 import model.entity.User;
 import model.enums.Priority;
+import model.enums.Stage;
 
 public class TicketDAO {
     private EntityManagerFactory emf;
@@ -159,14 +160,15 @@ public class TicketDAO {
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<Ticket> getByUserAndPriority(User user, Priority priority) {
+    @OrderBy("priority DESC")
+    public ArrayList<Ticket> getByUserAndStage(User user, Stage stage) {
         EntityManager em = emf.createEntityManager();
         ArrayList<Ticket> listTickets = new ArrayList<Ticket>();
 
         try {
-            Query query = em.createQuery("from " + Ticket.class.getName() + " where user = :u and priority = :p");	
+            Query query = em.createQuery("from " + Ticket.class.getName() + " where user = :u and stage = :s");	
             query.setParameter("u", user);	
-            query.setParameter("p", priority);	
+            query.setParameter("s", stage);	
 			listTickets = (ArrayList<Ticket>) query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();

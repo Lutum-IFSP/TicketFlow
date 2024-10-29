@@ -101,7 +101,7 @@ public class AuthController extends HttpServlet {
             boolean status = dao.insert(user);
 
             req.setAttribute("status", status);
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }
     }
     
@@ -120,14 +120,14 @@ public class AuthController extends HttpServlet {
 		}
 		else {
             req.setAttribute("error", true);
-			req.getRequestDispatcher("/index.jsp").forward(req, resp);
+			req.getRequestDispatcher("/login.jsp").forward(req, resp);
 		}
     }
     
     private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
 		session.invalidate();
-		req.getRequestDispatcher("/index.jsp").forward(req, resp);
+		req.getRequestDispatcher("/login.jsp").forward(req, resp);
     }
     
     private void find(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -154,6 +154,6 @@ public class AuthController extends HttpServlet {
 
         boolean status = dao.delete(user);
         req.setAttribute("status", status);
-        req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        req.getRequestDispatcher("/login.jsp").forward(req, resp);
     }
 }
