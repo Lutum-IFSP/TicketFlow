@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false" %>
 <%@ page session="true" %>
-<%@ page import="model.enums.Role, model.entity.Ticket, model.entity.User, java.util.ArrayList" %>
+<%@ page import="model.enums.Role, model.enums.Priority, model.entity.Ticket, model.entity.User, java.util.ArrayList" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -161,7 +161,7 @@
                                 <c:when test="${listMid.size() > 0}">
                                     <c:forEach begin="1" end="${listMid.size()}" varStatus="loop">
                                         <li>
-                                            <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                                            <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
                                             <span class="title"><c:out value="${listMid.get(loop.index - 1).title}"/></span>
                                         </li>
                                     </c:forEach>
@@ -189,7 +189,7 @@
                                 <c:when test="${listLow.size() > 0}">
                                     <c:forEach begin="1" end="${listLow.size()}" varStatus="loop">
                                         <li>
-                                            <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                                            <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
                                             <span class="title"><c:out value="${listLow.get(loop.index - 1).title}"/></span>
                                         </li>
                                     </c:forEach>
@@ -217,7 +217,7 @@
                                 <c:when test="${listUndefined.size() > 0}">
                                     <c:forEach begin="1" end="${listUndefined.size()}" varStatus="loop">
                                         <li>
-                                            <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                                            <span class="classificacao"><img src="image/solucionado.png"></span>
                                             <span class="title"><c:out value="${listUndefined.get(loop.index - 1).title}"/></span>
                                         </li>
                                     </c:forEach>
@@ -311,7 +311,7 @@
                                 <c:when test="${listSolved.size() > 0}">
                                     <c:forEach begin="1" end="${listSolved.size()}" varStatus="loop">
                                         <li>
-                                            <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                                            <span class="classificacao"><img src="image/solucionado.png"></span>
                                             <span class="title"><c:out value="${listSolved.get(loop.index - 1).title}"/></span>
                                         </li>
                                     </c:forEach>
@@ -337,9 +337,28 @@
                             <h3>Unresolved</h3>
                             <c:choose>
                                 <c:when test="${listUnresolved.size() > 0}">
+
                                     <c:forEach begin="1" end="${listUnresolved.size()}" varStatus="loop">
+                                        <c:choose>
+                                            <c:when test="${listUnresolved.get(loop.index - 1).priority == Priority.UNDEFINED}">
+                                                <c:set var="img" value="image/solucionado.png"/>
+                                            </c:when>
+                                            
+                                            <c:when test="${listUnresolved.get(loop.index - 1).priority == Priority.LOW}">
+                                                <c:set var="img" value="image/tarefaBaixaUrgencia.png"/>
+                                            </c:when>
+                                            
+                                            <c:when test="${listUnresolved.get(loop.index - 1).priority == Priority.MID}">
+                                                <c:set var="img" value="image/tarefaMediaUrgencia.png"/>
+                                            </c:when>
+                                            
+                                            <c:otherwise>
+                                                <c:set var="img" value="image/tarefaUrgente.png"/>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        
                                         <li>
-                                            <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                                            <span class="classificacao"><img src="${img}"></span>
                                             <span class="title"><c:out value="${listUnresolved.get(loop.index - 1).title}"/></span>
                                         </li>
                                     </c:forEach>
