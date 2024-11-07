@@ -28,6 +28,7 @@ public class Ticket {
     @NotBlank
     private String title;
     private String tags;
+    private String description;
     @Enumerated(EnumType.STRING)
     private Stage stage;
     @Enumerated(EnumType.ORDINAL)
@@ -41,9 +42,10 @@ public class Ticket {
     @NotBlank
     private User user;
     
-    public Ticket(@NotBlank String title, String tags, Stage stage, Priority priority, @NotBlank User user) {
+    public Ticket(@NotBlank String title, String tags, String description, Stage stage, Priority priority, @NotBlank User user) {
         this.title = title;
         this.tags = tags;
+        this.description = description;
         this.stage = stage;
         this.priority = priority;
         this.user = user;

@@ -2,13 +2,31 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false" %>
-<%@ page import="model.enums.Role" %>
+<%@ page session="true" %>
+<%@ page import="model.enums.Role, model.entity.Ticket, model.entity.User, java.util.ArrayList" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <c:set var="url">${pageContext.request.requestURL}</c:set>
     <c:set var="user" value="${sessionScope.user}"/>
     <c:set var="tech" value="${(user.role == Role.TECHNICIAN || user.role == Role.ADMIN) ? true : false}"/>
+
+    <!-- temp -->
+    
+    <c:choose>
+        <c:when test="${tech}">
+            <c:set var="listHigh" value="${sessionScope.listHigh}"/>
+            <c:set var="listMid" value="${sessionScope.listMid}"/>
+            <c:set var="listLow" value="${sessionScope.listLow}"/>
+            <c:set var="listUndefined" value="${sessionScope.listUndefined}"/>
+        </c:when>
+
+        <c:otherwise>
+            <c:set var="listUnresolved" value="${sessionScope.listUnresolved}"/>
+            <c:set var="listSolved" value="${sessionScope.listSolved}"/>
+        </c:otherwise>
+    </c:choose>
+
     <base href="${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,6 +56,7 @@
     <main>
         <c:choose>
             <c:when test="${tech}">
+        <!-- Sidebar -->
                 <div class="sidebar">
                     <div class="logo-details">
                         <i class="bx icon" style="background-image: url(image/icon_ticketflow.svg); background-size: contain; background-position: center; margin-right: .5vw; filter: brightness(3);"></i>
@@ -104,113 +123,125 @@
                         </li>
                     </ul>
                 </div>
+        <!-- Sidebar end -->
 
                 <div id="listasTarefas">
                     <div id="listaUrgente" class="lista">
                         <ul>
                             <h3>High Urgency</h3>
+                            <c:choose>
+                                <c:when test="${listHigh.size() > 0}">
+                                    <c:forEach begin="1" end="${listHigh.size()}" varStatus="loop">
+                                        <li>
+                                            <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                                            <span class="title"><c:out value="${listHigh.get(loop.index - 1).title}"/></span>
+                                        </li>
+                                    </c:forEach>
+                                </c:when>
+
+                                <c:otherwise>
+                                    <li>
+                                        <span class="title" style="color: rgb(105, 105, 72);">No tickets here</span>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                            <!-- Item Example
                             <li>
                                 <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
                                 <span class="title">Teste</span>
                             </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
+                            -->
                         </ul>
                     </div>
                     
                     <div id="listaMediaUrgencia" class="lista">
                         <ul>
                             <h3>Medium Urgency</h3>
+                            <c:choose>
+                                <c:when test="${listMid.size() > 0}">
+                                    <c:forEach begin="1" end="${listMid.size()}" varStatus="loop">
+                                        <li>
+                                            <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                                            <span class="title"><c:out value="${listMid.get(loop.index - 1).title}"/></span>
+                                        </li>
+                                    </c:forEach>
+                                </c:when>
+
+                                <c:otherwise>
+                                    <li>
+                                        <span class="title" style="color: rgb(105, 105, 72);">No tickets here</span>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                            <!-- Item Example
                             <li>
                                 <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
                                 <span class="title">Teste</span>
                             </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
+                            -->
                         </ul>
                     </div>
 
                     <div id="listaBaixaUrgencia" class="lista">
                         <ul>
                             <h3>Low Urgency</h3>
+                            <c:choose>
+                                <c:when test="${listLow.size() > 0}">
+                                    <c:forEach begin="1" end="${listLow.size()}" varStatus="loop">
+                                        <li>
+                                            <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                                            <span class="title"><c:out value="${listLow.get(loop.index - 1).title}"/></span>
+                                        </li>
+                                    </c:forEach>
+                                </c:when>
+
+                                <c:otherwise>
+                                    <li>
+                                        <span class="title" style="color: rgb(105, 105, 72);">No tickets here</span>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                            <!-- Item Example
                             <li>
                                 <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
                                 <span class="title">Teste</span>
                             </li>
+                            -->
+                        </ul>
+                    </div>
+                    
+                    <div id="listaNaoClassificado" class="lista">
+                        <ul>
+                            <h3>Undefined</h3>
+                            <c:choose>
+                                <c:when test="${listUndefined.size() > 0}">
+                                    <c:forEach begin="1" end="${listUndefined.size()}" varStatus="loop">
+                                        <li>
+                                            <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                                            <span class="title"><c:out value="${listUndefined.get(loop.index - 1).title}"/></span>
+                                        </li>
+                                    </c:forEach>
+                                </c:when>
+
+                                <c:otherwise>
+                                    <li>
+                                        <span class="title" style="color: rgb(105, 105, 72);">No tickets here</span>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                            <!-- Item Example
                             <li>
                                 <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
                                 <span class="title">Teste</span>
                             </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
+                            -->
                         </ul>
                     </div>
                 </div>
             </c:when>
         
             <c:otherwise>
+                <!-- Sidebar -->
                 <div class="sidebar">
                     <div class="logo-details">
                         <i class="bx icon" style="background-image: url(image/icon_ticketflow.svg); background-size: contain; background-position: center; margin-right: .5vw; filter: brightness(3);"></i>
@@ -270,86 +301,72 @@
                         </li>
                     </ul>
                 </div>
+                <!-- Sidebar end -->
 
                 <div id="listas">
                     <div id="ticketsRespondidos" class="lista">
                         <ul>
                             <h3>Solved</h3>
+                            <c:choose>
+                                <c:when test="${listSolved.size() > 0}">
+                                    <c:forEach begin="1" end="${listSolved.size()}" varStatus="loop">
+                                        <li>
+                                            <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                                            <span class="title"><c:out value="${listSolved.get(loop.index - 1).title}"/></span>
+                                        </li>
+                                    </c:forEach>
+                                </c:when>
+
+                                <c:otherwise>
+                                    <li>
+                                        <span class="title" style="color: rgb(105, 105, 72);">No tickets here</span>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                            <!-- Item Example
                             <li>
                                 <span class="classificacao"><img src="image/solucionado.png"></span>
-                                <span class="titleTicketsRespondidos">Teste</span>
+                                <span class="title">Teste</span>
                             </li>
-                            <li>
-                                <span class="classificacao"><img src="image/solucionado.png"></span>
-                                <span class="titleTicketsRespondidos">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/solucionado.png"></span>
-                                <span class="titleTicketsRespondidos">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/solucionado.png"></span>
-                                <span class="titleTicketsRespondidos">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/solucionado.png"></span>
-                                <span class="titleTicketsRespondidos">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/solucionado.png"></span>
-                                <span class="titleTicketsRespondidos">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/solucionado.png"></span>
-                                <span class="titleTicketsRespondidos">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/solucionado.png"></span>
-                                <span class="titleTicketsRespondidos">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/solucionado.png"></span>
-                                <span class="titleTicketsRespondidos">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/solucionado.png"></span>
-                                <span class="titleTicketsRespondidos">Teste</span>
-                            </li>
+                            -->
                         </ul>
                     </div>
 
                     <div id="ticketsAbertos" class="lista">
                         <ul>
                             <h3>Unresolved</h3>
+                            <c:choose>
+                                <c:when test="${listUnresolved.size() > 0}">
+                                    <c:forEach begin="1" end="${listUnresolved.size()}" varStatus="loop">
+                                        <li>
+                                            <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                                            <span class="title"><c:out value="${listUnresolved.get(loop.index - 1).title}"/></span>
+                                        </li>
+                                    </c:forEach>
+                                </c:when>
+
+                                <c:otherwise>
+                                    <li>
+                                        <span class="title" style="color: rgb(105, 105, 72);">No tickets here</span>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                            <!-- Item Example
                             <li>
                                 <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
-                                <span class="titleTicketsRespondidos">Teste</span>
+                                <span class="title">Titulo</span>
                             </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
-                                <span class="titleTicketsRespondidos">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="titleTicketsRespondidos">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
-                                <span class="titleTicketsRespondidos">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
-                                <span class="titleTicketsRespondidos">Teste</span>
-                            </li>
+                            -->
                         </ul>
                     </div>
                 </div> 
 
+                <!-- Create Ticket -->
                 <div id="fundo">
                     <div id="newTicket">
                         <div id="formTicket">
                             <span class="material-symbols-outlined" id="close" onclick="fecharmodelNewTicket()">close</span>
-                            <form action="#" method="post">
+                            <form action="ticket/create" method="post">
                                 <div style="margin-bottom: -200px;">
                                     <label for="titulo">Título do ticket</label>
                                     <input type="text" id="titulo" name="titulo" required>
@@ -367,6 +384,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- Create Ticket End -->
             </c:otherwise>
         </c:choose>
     </main>
