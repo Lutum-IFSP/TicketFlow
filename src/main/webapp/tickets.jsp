@@ -393,7 +393,8 @@
 
                                 <div id="editor-wrap">
                                     <label for="editor">Descreva com detalhes o seu problema/dúvida</label>
-                                    <div id="editor"></div>
+                                    <div id="editor" onchange="setInput()"></div>
+                                    <input type="text" id="editor-input" name="editor" style="display: none" value="" required>
                                 </div>
 
                                 <div>
@@ -413,6 +414,14 @@
             const quill = new Quill('#editor', {
                 theme: 'snow'
             });
+
+            let elementToObserve = document.getElementsByClassName("ql-editor")[0];
+
+            let observer = new MutationObserver((mutationList, observer) => {
+                document.getElementById("editor-input").setAttribute("value", document.querySelector(".ql-editor").innerHTML)
+            });
+            
+            observer.observe(elementToObserve, {characterData: true, childList: false, attributes: false, subtree: true});
         </script>
     </c:if>
 
