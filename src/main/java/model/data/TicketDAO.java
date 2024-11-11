@@ -111,7 +111,7 @@ public class TicketDAO {
         ArrayList<Ticket> listTickets = new ArrayList<Ticket>();
 
         try {
-            Query query = em.createQuery("from " + Ticket.class.getName() + " where 1");		
+            Query query = em.createQuery("from " + Ticket.class.getName());		
 			listTickets = (ArrayList<Ticket>) query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();

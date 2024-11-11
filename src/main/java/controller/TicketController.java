@@ -70,6 +70,8 @@ public class TicketController extends HttpServlet {
             ArrayList<Ticket> listMid = dao.getByPriority(Priority.MID);
             ArrayList<Ticket> listHigh = dao.getByPriority(Priority.HIGH);
 
+            listHigh.add(new Ticket("teste", "teste", Stage.OPEN, Priority.HIGH, user));
+
             req.setAttribute("listUndefined", listUndefined);
             req.setAttribute("listLow", listLow);
             req.setAttribute("listMid", listMid);
@@ -77,12 +79,8 @@ public class TicketController extends HttpServlet {
 
             req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
         } else {
-            ArrayList<Ticket> tmp = dao.getByUserAndStage(user, Stage.OPEN);
-            ArrayList<Ticket> listUnsolved = dao.getByUserAndStage(user, Stage.WIP);
-
-            listUnsolved.addAll(tmp);
-
-            ArrayList<Ticket> listSolved = dao.getByUserAndStage(user, Stage.FIXED);
+            ArrayList<Ticket> listUnsolved = dao.getByUserAndStage(user, Stage.OPEN);
+            ArrayList<Ticket> listSolved = dao.getByUserAndStage(user, Stage.CLOSED);
 
             req.setAttribute("listUnsolved", listUnsolved);
             req.setAttribute("listSolved", listSolved);

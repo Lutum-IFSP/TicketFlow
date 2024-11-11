@@ -2,7 +2,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false" %>
-<%@ page import="model.enums.Role" %>
+<%@ page import="model.enums.Role, java.util.ArrayList, model.entity.Ticket" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -52,10 +52,10 @@
                         </li>
                         <li>
                             <a href="#">
-                                <i class="material-symbols-outlined"> dashboard </i>
-                                <span class="links_name">Dashboard</span>
+                                <i class="bx bx-home-alt"></i>
+                                <span class="links_name">Home</span>
                             </a>
-                            <span class="tooltip">Dashboard</span>
+                            <span class="tooltip">Home</span>
                         </li>
                         <li>
                             <a href="#">
@@ -106,105 +106,101 @@
                 </div>
 
                 <div id="listasTarefas">
+                    <div id="listaTarefasNClassificadas" class="lista">
+                        <ul>
+                            <h3>Undefined</h3>
+                            <c:choose>
+                                <c:when test="${!(empty listUndefined)}">
+                                    <c:forEach items="${listUndefined}" var="undefined">
+                                        <li>
+                                            <span class="classificacao"><img src="image/tarefaNClassificada.png"></span>
+                                            <span class="title">${undefined.title}</span>
+                                        </li>
+                                    </c:forEach>
+                                </c:when>
+                                
+                                <c:otherwise>
+                                    <p>This list is empty</p>
+                                </c:otherwise>
+                            </c:choose>
+                        </ul>
+                    </div>
+
                     <div id="listaUrgente" class="lista">
+
+                        <%
+                            ArrayList<Ticket> listHigh = (ArrayList<Ticket>) request.getAttribute("listHigh");
+                        %>
+
                         <ul>
                             <h3>High Urgency</h3>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
+
+                            <%
+                                if (listHigh != null) {
+                                    for ( Ticket ticket : listHigh ) {
+                                        out.println("<li>");
+                                        out.println("<span class='classificacao'><img src='image/tarefaUrgente.png'></span>");
+                                        out.println("<span class='title'>"+ ticket.getTitle() +"</span>");
+                                        out.println("</li>");
+                                    }
+                                }
+                            %>
+                            <%--
+                            <c:choose>
+                                <c:when test="${!(empty requestScope.listHigh)}">
+                                    <c:forEach items="${requestScope.listHigh}" var="high">
+                                        <li>
+                                            <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                                            <span class="title">${high.title}</span>
+                                        </li>
+                                    </c:forEach>
+                                </c:when>
+                                
+                                <c:otherwise>
+                                    <p>This list is empty</p>
+                                </c:otherwise>
+                            </c:choose>
+                            --%>
                         </ul>
                     </div>
                     
                     <div id="listaMediaUrgencia" class="lista">
                         <ul>
                             <h3>Medium Urgency</h3>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
+                            <c:choose>
+                                <c:when test="${!(empty listMid)}">
+                                    <c:forEach items="${listMid}" var="mid">
+                                        <li>
+                                            <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
+                                            <span class="title">${mid.title}</span>
+                                        </li>
+                                    </c:forEach>
+                                </c:when>
+                                
+                                <c:otherwise>
+                                    <p>This list is empty</p>
+                                </c:otherwise>
+                            </c:choose>
                         </ul>
                     </div>
 
                     <div id="listaBaixaUrgencia" class="lista">
                         <ul>
                             <h3>Low Urgency</h3>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
-                            <li>
-                                <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
-                                <span class="title">Teste</span>
-                            </li>
+                            <c:choose>
+                                <c:when test="${!(empty listLow)}">
+                                    <c:forEach items="${listLow}" var="low">
+                                        <li>
+                                            <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
+                                            <span class="title">${low.title}</span>
+                                        </li>
+                                    </c:forEach>
+                                </c:when>
+                                
+                                <c:otherwise>
+                                    <p>This list is empty</p>
+                                </c:otherwise>
+                            </c:choose>
                         </ul>
                     </div>
                 </div>
@@ -320,7 +316,7 @@
 
                     <div id="ticketsAbertos" class="lista">
                         <ul>
-                            <h3>Unresolved</h3>
+                            <h3>Unsolved</h3>
                             <li>
                                 <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
                                 <span class="titleTicketsRespondidos">Teste</span>

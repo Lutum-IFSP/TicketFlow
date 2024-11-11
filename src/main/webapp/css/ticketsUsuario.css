@@ -367,6 +367,26 @@ main{
     cursor: pointer;
 }
 
+.lista::-webkit-scrollbar {
+    width: 12px;               /* width of the entire scrollbar */
+    contain: paint;
+}
+
+.lista::-webkit-scrollbar-track {
+    background: #e8ebab;        /* color of the tracking area */
+}
+
+.lista::-webkit-scrollbar-thumb {
+    background-color: #929450;    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+    border: 3px solid #e8ebab;  /* creates padding around scroll thumb */
+    scroll-padding: 20px;
+}
+
+.lista::-moz-scrollbar-button, .lista::-webkit-scrollbar-button {
+    width: 0px;
+}
+
 #listas{
     display: flex;
     flex-direction: row;
