@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.persistence.EntityManagerFactory;
@@ -12,7 +13,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.data.NoteDAO;
 import model.data.TicketDAO;
+import model.entity.Note;
 import model.entity.Ticket;
 import model.entity.User;
 import model.enums.Priority;
@@ -24,11 +27,13 @@ public class TicketController extends HttpServlet {
 
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("ticketflow");
     private TicketDAO dao;
+    private NoteDAO noteDAO;
 
     @Override
     public void init() throws ServletException {
         super.init();
         dao = new TicketDAO(emf);
+        noteDAO = new NoteDAO(emf);
     }
 
     @Override
@@ -36,11 +41,15 @@ public class TicketController extends HttpServlet {
         String path = req.getRequestURI();
         switch (path.substring(path.lastIndexOf("/") + 1, path.length())) {
             case "list": 
-                list(req, resp);
+                defineLists(req, resp);
+                break;
+
+            case "details":
+                detailTicket(req, resp);
                 break;
         
             default:
-                System.out.println("Error! Request not found!");
+                System.out.println("TicketError: Error! Request not found!");
                 break;
         }
     }
@@ -52,14 +61,36 @@ public class TicketController extends HttpServlet {
             case "create":
                 create(req, resp);
                 break;
+
+            case "list": 
+                defineLists(req, resp);
+                break;
             
             default:
-                System.out.println("Error! Request not found!");
+                System.out.println("TicketError: Error! Request not found!");
                 break;
         }
     }
 
-    private void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void detailTicket(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException  {
+        String id = req.getParameter("id");
+        Ticket ticket = dao.getById(id);
+
+        if(ticket != null) {
+            ArrayList<Note> notes = noteDAO.getAll(ticket);
+            User author = ticket.getUser();
+            
+            req.setAttribute("ticket", ticket);
+            req.setAttribute("notes", notes);
+            req.setAttribute("author", author);
+            req.getRequestDispatcher("/ticket.jsp").forward(req, resp);
+        } else {
+            req.setAttribute("errorGetTicket", true);
+            req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
+        }
+    }
+
+    private void defineLists(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         Role role = user.getRole();
@@ -70,27 +101,66 @@ public class TicketController extends HttpServlet {
             ArrayList<Ticket> listMid = dao.getByPriority(Priority.MID);
             ArrayList<Ticket> listHigh = dao.getByPriority(Priority.HIGH);
 
-            listHigh.add(new Ticket("teste", "teste", Stage.OPEN, Priority.HIGH, user));
-
-            req.setAttribute("listUndefined", listUndefined);
-            req.setAttribute("listLow", listLow);
-            req.setAttribute("listMid", listMid);
-            req.setAttribute("listHigh", listHigh);
+            session.setAttribute("listUndefined", listUndefined);
+            session.setAttribute("listLow", listLow);
+            session.setAttribute("listMid", listMid);
+            session.setAttribute("listHigh", listHigh);
 
             req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
         } else {
-            ArrayList<Ticket> listUnsolved = dao.getByUserAndStage(user, Stage.OPEN);
-            ArrayList<Ticket> listSolved = dao.getByUserAndStage(user, Stage.CLOSED);
-
-            req.setAttribute("listUnsolved", listUnsolved);
-            req.setAttribute("listSolved", listSolved);
-
+            ArrayList<Ticket> listSolved = dao.getByUserAndStage(user, Stage.FIXED);
+            ArrayList<Ticket> listUnresolved = dao.getByUserAndStage(user, Stage.OPEN);
+            
+            session.setAttribute("listSolved", listSolved);
+            session.setAttribute("listUnresolved", listUnresolved);
+            
             req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
         }
     }
 
+    private void refreshLists(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+        Role role = user.getRole();
+
+        if ( role == Role.ADMIN || role == Role.TECHNICIAN ) {
+            ArrayList<Ticket> listUndefined = dao.getByPriority(Priority.UNDEFINED);
+            ArrayList<Ticket> listLow = dao.getByPriority(Priority.LOW);
+            ArrayList<Ticket> listMid = dao.getByPriority(Priority.MID);
+            ArrayList<Ticket> listHigh = dao.getByPriority(Priority.HIGH);
+
+            session.setAttribute("listUndefined", listUndefined);
+            session.setAttribute("listLow", listLow);
+            session.setAttribute("listMid", listMid);
+            session.setAttribute("listHigh", listHigh);
+
+        } else {
+            ArrayList<Ticket> listSolved = dao.getByUserAndStage(user, Stage.FIXED);
+            ArrayList<Ticket> listUnresolved = dao.getByUserAndStage(user, Stage.OPEN);
+            
+            session.setAttribute("listSolved", listSolved);
+            session.setAttribute("listUnresolved", listUnresolved);
+            
+        }
+    }
+    
     private void create(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+        String title = req.getParameter("titulo");
+        String tags = "";
+        String description = "teste";
+        Stage stage = Stage.OPEN;
+        Priority priority = Priority.UNDEFINED;
+        String editor = req.getParameter("editor");
+        User user = (User) req.getSession().getAttribute("user");
+
+        Ticket ticket = new Ticket(title, tags, description, stage, priority, user);
+        Note initialNote = new Note(editor, user, ticket);
+        boolean status = dao.insert(ticket) && noteDAO.insert(initialNote);
+
+        refreshLists(req, resp);
+
+        req.setAttribute("status", status);
+        req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
     }
     
 }

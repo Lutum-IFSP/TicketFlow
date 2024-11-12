@@ -62,7 +62,7 @@ public class AuthController extends HttpServlet {
                 break;
         
             default:
-                System.out.println("Error! Request not found!");
+                System.out.println("AuthError: Error! Request not found!");
                 break;
         }
     }
@@ -80,7 +80,7 @@ public class AuthController extends HttpServlet {
                 break;
             
             default:
-                System.out.println("Error! Request not found!");
+                System.out.println("AuthError: Error! Request not found!");
                 break;
         }
     }
@@ -116,7 +116,7 @@ public class AuthController extends HttpServlet {
 			session.setAttribute("user", user);
             session.setMaxInactiveInterval(60*60*24*7);
 			
-			req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
+            req.getRequestDispatcher("/ticket/list").forward(req, resp);
 		}
 		else {
             req.setAttribute("error", true);
