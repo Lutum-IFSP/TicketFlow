@@ -5,9 +5,11 @@ import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.OrderBy;
 import javax.persistence.Query;
 
+import model.entity.Note;
 import model.entity.Ticket;
 import model.entity.User;
 import model.enums.Priority;
@@ -195,5 +197,20 @@ public class TicketDAO {
         }
     
         return listTickets;
+    }
+
+    public Ticket getById(String id) {
+        EntityManager em = emf.createEntityManager();
+        Ticket ticket = null;
+
+        try {
+            ticket = em.find(Ticket.class, id);
+        } catch (Exception e) {
+            e.printStackTrace(); 
+        } finally {
+            em.close();
+        }
+
+        return ticket;
     }
 }

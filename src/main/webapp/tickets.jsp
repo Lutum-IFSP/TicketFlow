@@ -10,8 +10,6 @@
     <c:set var="url">${pageContext.request.requestURL}</c:set>
     <c:set var="user" value="${sessionScope.user}"/>
     <c:set var="tech" value="${(user.role == Role.TECHNICIAN || user.role == Role.ADMIN) ? true : false}"/>
-
-    <!-- temp -->
     
     <c:choose>
         <c:when test="${tech}">
@@ -31,6 +29,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/toast.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
     <title>TicketFlow</title>
@@ -53,78 +53,34 @@
     <div id="cir1" class="circle"></div>
     <div id="cir2" class="circle"></div>
 
+    <!-- Error popup -->
+
+    <div class="toast">
+        <div class="toast-content">
+            <i class="fas fa-solid fa-times times"></i>
+
+            <div class="message">
+                <span class="text text-1">Ocorreu um erro</span>
+                <span class="text text-2">Erro ao detalhar ticket</span>
+            </div>
+        </div>
+        <i class="fa-solid fa-xmark close"></i>
+
+        <div class="progress"></div>
+    </div>
+
+    <c:if test="${requestScope.errorGetTicket}" >
+        <script src="js/toast.js"></script>
+    </c:if>
+
+    <!-- Error popup end-->
+
     <main>
+
+        <c:import url="sidebar.jsp" />
+
         <c:choose>
             <c:when test="${tech}">
-        <!-- Sidebar -->
-                <div class="sidebar">
-                    <div class="logo-details">
-                        <i class="bx icon" style="background-image: url(image/icon_ticketflow.svg); background-size: contain; background-position: center; margin-right: .5vw; filter: brightness(3);"></i>
-                        <div class="logo_name">TicketFlow</div>
-                        <i class="bx bx-menu" id="btn"></i>
-                    </div>
-                    <ul class="nav-list">
-                        <li>
-                            <i class="bx bx-search"></i>
-                            <input type="text" placeholder="Search..." />
-                            <span class="tooltip">Search</span>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="material-symbols-outlined"> dashboard </i>
-                                <span class="links_name">Dashboard</span>
-                            </a>
-                            <span class="tooltip">Dashboard</span>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="material-symbols-outlined"> confirmation_number </i>
-                                <span class="links_name">Tickets</span>
-                            </a>
-                            <span class="tooltip">Tickets</span>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="bx bx-pie-chart-alt-2"></i>
-                                <span class="links_name">Analytics</span>
-                            </a>
-                            <span class="tooltip">Analytics</span>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="bx bx-chat"></i>
-                                <span class="links_name">Messages</span>
-                            </a>
-                            <span class="tooltip">Messages</span>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="bx bx-user"></i>
-                                <span class="links_name">User</span>
-                            </a>
-                            <span class="tooltip">User</span>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="bx bx-cog"></i>
-                                <span class="links_name">Setting</span>
-                            </a>
-                            <span class="tooltip">Setting</span>
-                        </li>
-                        <li class="profile">
-                            <div class="profile-details">
-                                <img src="${user.image}" alt="profileImg" />
-                                <div class="name_job">
-                                    <div class="name">${user.username}</div>
-                                    <div class="job">${user.role}</div>
-                                </div>
-                            </div>
-                            <i class="bx bx-log-out" id="log_out"></i>
-                        </li>
-                    </ul>
-                </div>
-        <!-- Sidebar end -->
-
                 <div id="listasTarefas">
                     <div id="listaUrgente" class="lista">
                         <ul>
@@ -132,10 +88,12 @@
                             <c:choose>
                                 <c:when test="${listHigh.size() > 0}">
                                     <c:forEach begin="1" end="${listHigh.size()}" varStatus="loop">
-                                        <li>
-                                            <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
-                                            <span class="title"><c:out value="${listHigh.get(loop.index - 1).title}"/></span>
-                                        </li>
+                                        <a href="ticket/details?id=${listHigh.get(loop.index-1).id}">
+                                            <li>
+                                                <span class="classificacao"><img src="image/tarefaUrgente.png"></span>
+                                                <span class="title"><c:out value="${listHigh.get(loop.index - 1).title}"/></span>
+                                            </li>
+                                        </a>
                                     </c:forEach>
                                 </c:when>
 
@@ -241,68 +199,7 @@
             </c:when>
         
             <c:otherwise>
-                <!-- Sidebar -->
-                <div class="sidebar">
-                    <div class="logo-details">
-                        <i class="bx icon" style="background-image: url(image/icon_ticketflow.svg); background-size: contain; background-position: center; margin-right: .5vw; filter: brightness(3);"></i>
-                        <div class="logo_name">TicketFlow</div>
-                        <i class="bx bx-menu" id="btn"></i>
-                    </div>
-                    <ul class="nav-list">
-                        <li>
-                            <i class="bx bx-search"></i>
-                            <input type="text" placeholder="Search..." />
-                            <span class="tooltip">Search</span>
-                        </li>
-                        <li onclick="abrirmodelNewTicket()">
-                            <a>
-                                <i class='bx bx-plus-circle'></i>
-                                <span class="links_name">New ticket</span>
-                            </a>
-                            <span class="tooltip">New ticket</span>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="material-symbols-outlined"> confirmation_number </i>
-                                <span class="links_name">Tickets</span>
-                            </a>
-                            <span class="tooltip">Tickets</span>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="bx bx-chat"></i>
-                                <span class="links_name">Messages</span>
-                            </a>
-                            <span class="tooltip">Messages</span>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="bx bx-user"></i>
-                                <span class="links_name">User</span>
-                            </a>
-                            <span class="tooltip">User</span>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="bx bx-cog"></i>
-                                <span class="links_name">Setting</span>
-                            </a>
-                            <span class="tooltip">Setting</span>
-                        </li>
-                        <li class="profile">
-                            <div class="profile-details">
-                                <img src="${user.image}" alt="profileImg" />
-                                <div class="name_job">
-                                    <div class="name">${user.username}</div>
-                                    <div class="job">${user.role}</div>
-                                </div>
-                            </div>
-                            <i class="bx bx-log-out" id="log_out"></i>
-                        </li>
-                    </ul>
-                </div>
-                <!-- Sidebar end -->
-
+                
                 <div id="listas">
                     <div id="ticketsRespondidos" class="lista">
                         <ul>

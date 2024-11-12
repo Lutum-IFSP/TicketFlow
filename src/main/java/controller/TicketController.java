@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.persistence.EntityManagerFactory;
@@ -12,7 +13,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.data.NoteDAO;
 import model.data.TicketDAO;
+import model.entity.Note;
 import model.entity.Ticket;
 import model.entity.User;
 import model.enums.Priority;
@@ -24,11 +27,13 @@ public class TicketController extends HttpServlet {
 
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("ticketflow");
     private TicketDAO dao;
+    private NoteDAO noteDAO;
 
     @Override
     public void init() throws ServletException {
         super.init();
         dao = new TicketDAO(emf);
+        noteDAO = new NoteDAO(emf);
     }
 
     @Override
@@ -37,6 +42,10 @@ public class TicketController extends HttpServlet {
         switch (path.substring(path.lastIndexOf("/") + 1, path.length())) {
             case "list": 
                 defineLists(req, resp);
+                break;
+
+            case "details":
+                detailTicket(req, resp);
                 break;
         
             default:
@@ -60,6 +69,24 @@ public class TicketController extends HttpServlet {
             default:
                 System.out.println("TicketError: Error! Request not found!");
                 break;
+        }
+    }
+
+    private void detailTicket(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException  {
+        String id = req.getParameter("id");
+        Ticket ticket = dao.getById(id);
+
+        if(ticket != null) {
+            ArrayList<Note> notes = noteDAO.getAll(ticket);
+            User author = ticket.getUser();
+            
+            req.setAttribute("ticket", ticket);
+            req.setAttribute("notes", notes);
+            req.setAttribute("author", author);
+            req.getRequestDispatcher("/ticket.jsp").forward(req, resp);
+        } else {
+            req.setAttribute("errorGetTicket", true);
+            req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
         }
     }
 
@@ -123,10 +150,12 @@ public class TicketController extends HttpServlet {
         String description = "teste";
         Stage stage = Stage.OPEN;
         Priority priority = Priority.UNDEFINED;
+        String editor = req.getParameter("editor");
         User user = (User) req.getSession().getAttribute("user");
 
         Ticket ticket = new Ticket(title, tags, description, stage, priority, user);
-        boolean status = dao.insert(ticket);
+        Note initialNote = new Note(editor, user, ticket);
+        boolean status = dao.insert(ticket) && noteDAO.insert(initialNote);
 
         refreshLists(req, resp);
 
