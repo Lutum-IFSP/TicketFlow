@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.persistence.EntityManagerFactory;
@@ -86,6 +85,7 @@ public class TicketController extends HttpServlet {
             req.getRequestDispatcher("/ticket.jsp").forward(req, resp);
         } else {
             req.setAttribute("errorGetTicket", true);
+            req.setAttribute("blockAudio", true);
             req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
         }
     }
@@ -108,7 +108,7 @@ public class TicketController extends HttpServlet {
 
             req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
         } else {
-            ArrayList<Ticket> listSolved = dao.getByUserAndStage(user, Stage.FIXED);
+            ArrayList<Ticket> listSolved = dao.getByUserAndStage(user, Stage.CLOSED);
             ArrayList<Ticket> listUnresolved = dao.getByUserAndStage(user, Stage.OPEN);
             
             session.setAttribute("listSolved", listSolved);
@@ -134,13 +134,16 @@ public class TicketController extends HttpServlet {
             session.setAttribute("listMid", listMid);
             session.setAttribute("listHigh", listHigh);
 
+            req.setAttribute("blockAudio", true);
+
         } else {
-            ArrayList<Ticket> listSolved = dao.getByUserAndStage(user, Stage.FIXED);
+            ArrayList<Ticket> listSolved = dao.getByUserAndStage(user, Stage.CLOSED);
             ArrayList<Ticket> listUnresolved = dao.getByUserAndStage(user, Stage.OPEN);
             
             session.setAttribute("listSolved", listSolved);
             session.setAttribute("listUnresolved", listUnresolved);
             
+            req.setAttribute("blockAudio", true);
         }
     }
     
@@ -161,6 +164,8 @@ public class TicketController extends HttpServlet {
 
         req.setAttribute("status", status);
         req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
+
+        req.setAttribute("blockAudio", true);
     }
     
 }

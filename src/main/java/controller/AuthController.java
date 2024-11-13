@@ -116,7 +116,7 @@ public class AuthController extends HttpServlet {
 			session.setAttribute("user", user);
             session.setMaxInactiveInterval(60*60*24*7);
 			
-            req.getRequestDispatcher("/ticket/list").forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/ticket/list");
 		}
 		else {
             req.setAttribute("error", true);

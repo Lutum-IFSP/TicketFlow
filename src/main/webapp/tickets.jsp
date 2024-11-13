@@ -53,6 +53,14 @@
     <div id="cir1" class="circle"></div>
     <div id="cir2" class="circle"></div>
 
+    <c:if test="${!requestScope.blockAudio}" >
+        <audio src="sounds/startup.ogg" id="startup" autoplay style="display: none"></audio>
+        <script>
+            let startupAudio = document.querySelector("#startup");
+            startupAudio.volume = 0.2;
+        </script>
+    </c:if>
+
     <!-- Error popup -->
 
     <div class="toast">
@@ -82,25 +90,6 @@
         <c:choose>
             <c:when test="${tech}">
                 <div id="listasTarefas">
-                    <div id="listaTarefasNClassificadas" class="lista">
-                        <ul>
-                            <h3>Undefined</h3>
-                            <c:choose>
-                                <c:when test="${!(empty listUndefined)}">
-                                    <c:forEach items="${listUndefined}" var="undefined">
-                                        <li>
-                                            <span class="classificacao"><img src="image/tarefaNClassificada.png"></span>
-                                            <span class="title">${undefined.title}</span>
-                                        </li>
-                                    </c:forEach>
-                                </c:when>
-                                
-                                <c:otherwise>
-                                    <p>This list is empty</p>
-                                </c:otherwise>
-                            </c:choose>
-                        </ul>
-                    </div>
 
                     <div id="listaUrgente" class="lista">
 
@@ -143,10 +132,12 @@
                             <c:choose>
                                 <c:when test="${listMid.size() > 0}">
                                     <c:forEach begin="1" end="${listMid.size()}" varStatus="loop">
-                                        <li>
-                                            <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
-                                            <span class="title"><c:out value="${listMid.get(loop.index - 1).title}"/></span>
-                                        </li>
+                                        <a href="ticket/details?id=${listMid.get(loop.index-1).id}">
+                                            <li>
+                                                <span class="classificacao"><img src="image/tarefaMediaUrgencia.png"></span>
+                                                <span class="title"><c:out value="${listMid.get(loop.index - 1).title}"/></span>
+                                            </li>
+                                        </a>
                                     </c:forEach>
                                 </c:when>
 
@@ -171,10 +162,12 @@
                             <c:choose>
                                 <c:when test="${listLow.size() > 0}">
                                     <c:forEach begin="1" end="${listLow.size()}" varStatus="loop">
-                                        <li>
-                                            <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
-                                            <span class="title"><c:out value="${listLow.get(loop.index - 1).title}"/></span>
-                                        </li>
+                                        <a href="ticket/details?id=${listLow.get(loop.index-1).id}">
+                                            <li>
+                                                <span class="classificacao"><img src="image/tarefaBaixaUrgencia.png"></span>
+                                                <span class="title"><c:out value="${listLow.get(loop.index - 1).title}"/></span>
+                                            </li>
+                                        </a>
                                     </c:forEach>
                                 </c:when>
 
@@ -199,10 +192,12 @@
                             <c:choose>
                                 <c:when test="${listUndefined.size() > 0}">
                                     <c:forEach begin="1" end="${listUndefined.size()}" varStatus="loop">
-                                        <li>
-                                            <span class="classificacao"><img src="image/solucionado.png"></span>
-                                            <span class="title"><c:out value="${listUndefined.get(loop.index - 1).title}"/></span>
-                                        </li>
+                                        <a href="ticket/details?id=${listUndefined.get(loop.index-1).id}">
+                                            <li>
+                                                <span class="classificacao"><img src="image/solucionado.png"></span>
+                                                <span class="title"><c:out value="${listUndefined.get(loop.index - 1).title}"/></span>
+                                            </li>
+                                        </a>
                                     </c:forEach>
                                 </c:when>
 
@@ -232,10 +227,12 @@
                             <c:choose>
                                 <c:when test="${listSolved.size() > 0}">
                                     <c:forEach begin="1" end="${listSolved.size()}" varStatus="loop">
-                                        <li>
-                                            <span class="classificacao"><img src="image/solucionado.png"></span>
-                                            <span class="title"><c:out value="${listSolved.get(loop.index - 1).title}"/></span>
-                                        </li>
+                                        <a href="ticket/details?id=${listSolved.get(loop.index-1).id}">
+                                            <li>
+                                                <span class="classificacao"><img src="image/solucionado.png"></span>
+                                                <span class="title"><c:out value="${listSolved.get(loop.index - 1).title}"/></span>
+                                            </li>
+                                        </a>
                                     </c:forEach>
                                 </c:when>
 
@@ -256,7 +253,7 @@
 
                     <div id="ticketsAbertos" class="lista">
                         <ul>
-                            <h3>Unresolved</h3>
+                            <h3>Unsolved</h3>
                             <c:choose>
                                 <c:when test="${listUnresolved.size() > 0}">
 
@@ -279,10 +276,12 @@
                                             </c:otherwise>
                                         </c:choose>
                                         
-                                        <li>
-                                            <span class="classificacao"><img src="${img}"></span>
-                                            <span class="title"><c:out value="${listUnresolved.get(loop.index - 1).title}"/></span>
-                                        </li>
+                                        <a href="ticket/details?id=${listUnresolved.get(loop.index-1).id}">
+                                            <li>
+                                                <span class="classificacao"><img src="${img}"></span>
+                                                <span class="title"><c:out value="${listUnresolved.get(loop.index - 1).title}"/></span>
+                                            </li>
+                                        </a>
                                     </c:forEach>
                                 </c:when>
 
@@ -310,7 +309,7 @@
                             <form action="ticket/create" method="post">
                                 <div style="margin-bottom: -200px;">
                                     <label for="titulo">Título do ticket</label>
-                                    <input type="text" id="titulo" name="titulo" required>
+                                    <input type="text" id="titulo" name="titulo" maxlength="255" required>
                                 </div>
 
                                 <div id="editor-wrap">

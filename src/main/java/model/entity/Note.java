@@ -2,8 +2,10 @@ package model.entity;
 
 import java.time.Instant;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -23,6 +25,8 @@ public class Note {
     @Id
     private String id;
     @NotBlank
+    @Column( length = 1000000 )
+    @Lob
     private String text;
     @CreationTimestamp
     private Instant send;
