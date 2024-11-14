@@ -14,6 +14,8 @@
         <c:set var="ticket" value="${requestScope.ticket}"/>
         <c:set var="notes" value="${requestScope.notes}"/>
         <c:set var="author" value="${requestScope.author}"/>
+        <c:set var="user" value="${sessionScope.user}"/>
+        <c:set var="tech" value="${(user.role == Role.TECHNICIAN || user.role == Role.ADMIN) ? true : false}"/>
         <title><c:out value="${ticket.title}"/></title>
     </head>
     <body>
@@ -22,7 +24,25 @@
         <p>Tags: <c:out value="${ticket.tags}"/></p>
         <p>Description: <c:out value="${ticket.description}"/></p>
         <p>Stage: <c:out value="${ticket.stage}"/></p>
-        <p>Priority: <c:out value="${ticket.priority}"/></p>
+        <c:choose>
+            <c:when test="${tech}">
+                <form action="ticket/change" method="POST">
+                    <input type="text" name="id" value="${ticket.id}" hidden>
+
+                    <label for="priority">Priority: </label>
+                    <select name="priority" id="priority" onchange="this.form.submit()">
+                        <option value="0" ${(ticket.priority == Priority.UNDEFINED) ? "selected" : ""}>UNDEFINED</option>
+                        <option value="1" ${(ticket.priority == Priority.LOW) ? "selected" : ""}>LOW</option>
+                        <option value="2" ${(ticket.priority == Priority.MID) ? "selected" : ""}>MID</option>
+                        <option value="3" ${(ticket.priority == Priority.HIGH) ? "selected" : ""}>HIGH</option>
+                    </select>
+                </form>
+            </c:when>
+            
+            <c:otherwise>
+                <p>Priority: <c:out value="${ticket.priority}"/></p>
+            </c:otherwise>
+        </c:choose>
         <p>Created: <c:out value="${ticket.created}"/></p>
         <p>Updated: <c:out value="${ticket.updated}"/></p>
         <p>Closed: <c:out value="${ticket.closed}"/></p>

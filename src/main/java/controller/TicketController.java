@@ -64,7 +64,11 @@ public class TicketController extends HttpServlet {
             case "list": 
                 defineLists(req, resp);
                 break;
-            
+
+            case "change":
+                changePriority(req, resp);
+                break;
+
             default:
                 System.out.println("TicketError: Error! Request not found!");
                 break;
@@ -88,6 +92,23 @@ public class TicketController extends HttpServlet {
             req.setAttribute("blockAudio", true);
             req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
         }
+    }
+
+    private void changePriority(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = req.getParameter("id");
+        Priority priority = Priority.convert(Integer.parseInt(req.getParameter("priority")));
+        System.out.println(req.getParameter("priority"));
+
+        Ticket ticket = dao.getById(id);
+        System.out.println(ticket);
+        ticket.setPriority(priority);
+        System.out.println(priority);
+        
+        boolean status = dao.update(ticket);
+        System.out.println(status);
+        refreshLists(req, resp);
+        
+        detailTicket(req, resp);
     }
 
     private void defineLists(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -162,10 +183,10 @@ public class TicketController extends HttpServlet {
 
         refreshLists(req, resp);
 
+        req.setAttribute("blockAudio", true);
         req.setAttribute("status", status);
         req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
 
-        req.setAttribute("blockAudio", true);
     }
     
 }
