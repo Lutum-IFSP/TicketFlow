@@ -45,10 +45,10 @@
 
         <li>
             <a href="#">
-                <i class="bx bx-chat"></i>
-                <span class="links_name">Messages</span>
+                <i class="bx bx-pie-chart-alt-2"></i>
+                <span class="links_name">Analytics</span>
             </a>
-            <span class="tooltip">Messages</span>
+            <span class="tooltip">Analytics</span>
         </li>
         <li>
             <a href="#">

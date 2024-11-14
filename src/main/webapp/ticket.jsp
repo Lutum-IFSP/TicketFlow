@@ -25,7 +25,7 @@
         <p>Description: <c:out value="${ticket.description}"/></p>
         <p>Stage: <c:out value="${ticket.stage}"/></p>
         <c:choose>
-            <c:when test="${tech}">
+            <c:when test="${tech && ticket.priority == Priority.UNDEFINED}">
                 <form action="ticket/change" method="POST">
                     <input type="text" name="id" value="${ticket.id}" hidden>
 
