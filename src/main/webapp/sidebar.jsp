@@ -22,7 +22,7 @@
     <ul class="nav-list">
         <li>
             <i class="bx bx-search"></i>
-            <input type="text" id="bx-search-input" placeholder="Search..." onchange="setList(this.value)" onfocus="autocompleteShow()" onfocusout="autocompleteClose()" />
+            <input type="text" id="bx-search-input" placeholder="Search..." onkeyup="setList(this.value)" onfocus="autocompleteShow()" onfocusout="autocompleteClose()" />
             <span class="tooltip">Search</span>
             <div id="search-autocomplete">
                 <ul id="search-list">

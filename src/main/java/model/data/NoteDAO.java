@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.OrderBy;
 import javax.persistence.Query;
 
 import model.entity.Note;
