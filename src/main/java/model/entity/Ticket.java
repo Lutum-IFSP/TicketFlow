@@ -2,10 +2,12 @@ package model.entity;
 
 import java.time.Instant;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
@@ -28,6 +30,8 @@ public class Ticket {
     @NotBlank
     private String title;
     private String tags;
+    @Lob
+    @Column( length = 1000000 )
     private String description;
     @Enumerated(EnumType.STRING)
     private Stage stage;

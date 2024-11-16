@@ -10,11 +10,11 @@
         <base href="${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/" />
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/cadastroUsuario.css">
+        <link rel="stylesheet" href="css/register.css">
         <link rel="stylesheet" href="css/toast.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
         <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon">
-        <title>TicketFlow - Login</title>
+        <title>TicketFlow - Cadastro</title>
     </head>
     <body>
         <div id="cir1" class="circle"></div>
@@ -44,7 +44,7 @@
                         <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Confirme a senha" required>
                         <div id="fUsuario">
                             <label for="foto">
-                                <img src="image/cadastroUsuario/imgUser.png">
+                                <img src="image/register/imgUser.png">
                                 <p>Escolha uma foto para o seu perfil</p>
                             </label>
                             <input type="file" name="foto" id="foto" style="display: none;">

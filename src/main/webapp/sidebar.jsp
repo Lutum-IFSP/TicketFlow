@@ -22,11 +22,15 @@
     <ul class="nav-list">
         <li>
             <i class="bx bx-search"></i>
-            <input type="text" placeholder="Search..." />
+            <input type="text" id="bx-search-input" placeholder="Search..." onchange="setList(this.value)" onfocus="autocompleteShow()" onfocusout="autocompleteClose()" />
             <span class="tooltip">Search</span>
+            <div id="search-autocomplete">
+                <ul id="search-list">
+                </ul>
+            </div>
         </li>
         <li>
-            <a href="#">
+            <a href="ticket/list">
                 <i class="bx bx-home-alt"></i>
                 <span class="links_name">Home</span>
             </a>
@@ -77,3 +81,4 @@
     </ul>
 </div>
 <!-- Sidebar end -->
+<script src="js/sidebar.js"></script>

@@ -314,7 +314,7 @@
 
                                 <div id="editor-wrap">
                                     <label for="editor">Descreva com detalhes o seu problema/dúvida</label>
-                                    <div id="editor" onchange="setInput()"></div>
+                                    <div id="editor"></div>
                                     <input type="text" id="editor-input" name="editor" style="display: none" value="" required>
                                 </div>
 
@@ -348,11 +348,6 @@
 
 
     <script>
-        let logout = document.querySelector("#log_out");
-        let sidebar = document.querySelector(".sidebar");
-        let closeBtn = document.querySelector("#btn");
-        let searchBtn = document.querySelector(".bx-search");
-
         function abrirmodelNewTicket(){
             let fundo = document.getElementById("fundo")
             
@@ -363,27 +358,6 @@
             let fundo = document.getElementById("fundo")
 
             fundo.style.display = "none"
-        }
-
-        closeBtn.addEventListener("click", () => {
-            sidebar.classList.toggle("open");
-            menuBtnChange(); //calling the function(optional)
-        });
-        searchBtn.addEventListener("click", () => {
-            // Sidebar open when you click on the search iocn
-            sidebar.classList.toggle("open");
-            menuBtnChange(); //calling the function(optional)
-        });
-        logout.addEventListener("click", () => {
-            window.location.href = "auth/logout";
-        });
-        // following are the code to change sidebar button(optional)
-        function menuBtnChange() {
-            if (sidebar.classList.contains("open")) {
-                closeBtn.classList.replace("bx-menu", "bx-menu-alt-right"); //replacing the iocns class
-            } else {
-                closeBtn.classList.replace("bx-menu-alt-right", "bx-menu"); //replacing the iocns class
-            }
         }
     </script>
 </body>

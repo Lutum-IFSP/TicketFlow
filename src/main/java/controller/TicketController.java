@@ -1,10 +1,16 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.google.gson.Gson;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -38,6 +44,7 @@ public class TicketController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getRequestURI();
+
         switch (path.substring(path.lastIndexOf("/") + 1, path.length())) {
             case "list": 
                 defineLists(req, resp);
@@ -45,6 +52,10 @@ public class TicketController extends HttpServlet {
 
             case "details":
                 detailTicket(req, resp);
+                break;
+
+            case "search":
+                searchTicket(req, resp);
                 break;
         
             default:
@@ -56,6 +67,7 @@ public class TicketController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getRequestURI();
+
         switch (path.substring(path.lastIndexOf("/") + 1, path.length())) {
             case "create":
                 create(req, resp);
@@ -75,6 +87,31 @@ public class TicketController extends HttpServlet {
         }
     }
 
+    private void searchTicket(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String searchTerm = req.getParameter("q");
+
+        searchTerm = searchTerm.replace("\"", "");
+
+        ArrayList<Ticket> tickets = dao.searchByTitle(searchTerm);
+
+        System.out.println(tickets);
+
+        JSONArray array = new JSONArray();
+        for (Ticket ticket : tickets) {
+            JSONObject object = new JSONObject();
+            object.put("id", ticket.getId());
+            object.put("title", ticket.getTitle());
+            object.put("priority", ticket.getPriority().toString());
+            array.put(object);
+        }
+
+        PrintWriter out = resp.getWriter();
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        out.println(array.toString());
+        out.flush();
+    }
+
     private void detailTicket(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException  {
         String id = req.getParameter("id");
         Ticket ticket = dao.getById(id);
@@ -90,22 +127,18 @@ public class TicketController extends HttpServlet {
         } else {
             req.setAttribute("errorGetTicket", true);
             req.setAttribute("blockAudio", true);
-            req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
+            req.getRequestDispatcher("/ticket.jsp").forward(req, resp);
         }
     }
 
     private void changePriority(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         Priority priority = Priority.convert(Integer.parseInt(req.getParameter("priority")));
-        System.out.println(req.getParameter("priority"));
 
         Ticket ticket = dao.getById(id);
-        System.out.println(ticket);
         ticket.setPriority(priority);
-        System.out.println(priority);
-        
+
         boolean status = dao.update(ticket);
-        System.out.println(status);
         refreshLists(req, resp);
         
         detailTicket(req, resp);
@@ -115,6 +148,10 @@ public class TicketController extends HttpServlet {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         Role role = user.getRole();
+
+        if( req.getParameter("blockAudio") != null ) {
+            req.setAttribute("blockAudio", true);
+        }
 
         if ( role == Role.ADMIN || role == Role.TECHNICIAN ) {
             ArrayList<Ticket> listUndefined = dao.getByPriority(Priority.UNDEFINED);
@@ -171,15 +208,13 @@ public class TicketController extends HttpServlet {
     private void create(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String title = req.getParameter("titulo");
         String tags = "";
-        String description = "teste";
+        String description = req.getParameter("editor");
         Stage stage = Stage.OPEN;
         Priority priority = Priority.UNDEFINED;
-        String editor = req.getParameter("editor");
         User user = (User) req.getSession().getAttribute("user");
 
         Ticket ticket = new Ticket(title, tags, description, stage, priority, user);
-        Note initialNote = new Note(editor, user, ticket);
-        boolean status = dao.insert(ticket) && noteDAO.insert(initialNote);
+        boolean status = dao.insert(ticket);
 
         refreshLists(req, resp);
 

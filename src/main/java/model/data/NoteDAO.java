@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.OrderBy;
 import javax.persistence.Query;
 
 import model.entity.Note;
@@ -40,7 +41,7 @@ public class NoteDAO {
         EntityManager em = emf.createEntityManager();
 
         try {
-            Query query = em.createQuery(String.format("from %s where ticket = :t", Note.class.getName()));
+            Query query = em.createQuery(String.format("from %s where ticket = :t order by send asc", Note.class.getName()));
             query.setParameter("t", ticket);
             notes = (ArrayList<Note>) query.getResultList();
         } catch (Exception e) {

@@ -45,7 +45,7 @@ public class TicketDAO {
         ArrayList<Ticket> tickets = new ArrayList<>();
 
         try {
-            Query query = em.createQuery(String.format("from %s where title ~ \"*:t*\"", Ticket.class.getName()));
+            Query query = em.createQuery("from "+ Ticket.class.getName() +" where title like concat('%', upper(:t), '%')");
             query.setParameter("t", title);
             tickets = (ArrayList<Ticket>) query.getResultList();
         } catch (Exception e) {

@@ -95,7 +95,7 @@ public class AuthController extends HttpServlet {
         
         if (dao.findByUsername(username) != null || dao.findByEmail(email) != null) {
             req.setAttribute("error", true);
-            req.getRequestDispatcher("/cadastroUsuario.jsp").forward(req, resp);
+            req.getRequestDispatcher("/register.jsp").forward(req, resp);
         } else {
             User user = new User(username, email, password, role, url);
             boolean status = dao.insert(user);

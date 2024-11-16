@@ -209,6 +209,7 @@
 .sidebar li a:hover i {
     transition: all 0.5s ease;
     color: #11101D;
+    cursor: pointer;
 }
 
 .sidebar li i {
@@ -265,12 +266,17 @@
     top: 50%;
     right: 0;
     transform: translateY(-50%);
-    background: #65681e;
+    background-color: #65681e;
     width: 100%;
     height: 60px;
     line-height: 60px;
     border-radius: 0px;
     transition: all 0.5s ease;
+}
+
+.sidebar .profile #log_out:hover {
+    background-color: #515318;
+    cursor: pointer;
 }
 
 .sidebar.open .profile #log_out {
@@ -298,4 +304,74 @@
     .sidebar li .tooltip {
         display: none;
     }
+}
+
+div#search-autocomplete {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    max-height: 0vh;
+    position: absolute;
+    z-index: 10000;
+    width: 100%;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: none;
+    transition: all 1s ease;
+}
+
+ul li .search-priority {
+    width: 20px;
+    height: 20px;
+}
+
+ul#search-autocomplete {
+    width: 100%;
+}
+
+#search-autocomplete li {
+    /* text-align: center; */
+    display: flex;
+    align-items: center;
+    margin: 0;
+    width: 100%;
+    padding: 20px 15px;
+    transition: all 200ms ease;
+}
+
+#search-autocomplete li a {
+    color: #11101D;
+}
+
+#search-autocomplete li:hover {
+    background-color: rgba(255,255,255,0.9);
+    cursor: pointer;
+}
+
+#search-autocomplete::-webkit-scrollbar {
+    width: 5px;
+    /* width of the entire scrollbar */
+    contain: paint;
+}
+
+#search-autocomplete::-webkit-scrollbar-track {
+    background: #ffffff00;
+    /* color of the tracking area */
+}
+
+#search-autocomplete::-webkit-scrollbar-thumb {
+    background-color: #929450;
+    /* color of the scroll thumb */
+    border-radius: 20px;
+    /* creates padding around scroll thumb */
+    scroll-padding: 20px;
+}
+
+#search-autocomplete::-moz-scrollbar-button,
+#search-autocomplete::-webkit-scrollbar-button {
+    width: 0px;
 }
