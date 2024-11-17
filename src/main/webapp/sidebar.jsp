@@ -55,7 +55,7 @@
             <span class="tooltip">Analytics</span>
         </li>
         <li>
-            <a href="#">
+            <a href="user.jsp">
                 <i class="bx bx-user"></i>
                 <span class="links_name">User</span>
             </a>

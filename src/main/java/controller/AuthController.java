@@ -62,7 +62,7 @@ public class AuthController extends HttpServlet {
                 break;
         
             default:
-                System.out.println("AuthError: Error! Request not found!");
+                System.out.println("GAuthError: Error! Request not found!");
                 break;
         }
     }
@@ -78,13 +78,21 @@ public class AuthController extends HttpServlet {
             case "login":
                 login(req, resp);
                 break;
-            
+
+            case "verify": 
+                verify(req, resp);
+                break;
+
+            case "changepassword":
+                changePassword(req, resp);
+                break;
+
             default:
-                System.out.println("AuthError: Error! Request not found!");
+                System.out.println("PAuthError: Error! Request not found!");
                 break;
         }
     }
-
+                
     private void registerUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String email = req.getParameter("email");
@@ -103,6 +111,16 @@ public class AuthController extends HttpServlet {
             req.setAttribute("status", status);
             req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }
+    }
+    
+    private void changePassword(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String newPassword = req.getParameter("password");
+        User user = (User) req.getSession().getAttribute("user");
+
+        boolean status = dao.updatePassword(newPassword, user);
+
+        req.setAttribute("status", status);
+        req.getRequestDispatcher("/user.jsp").forward(req, resp);
     }
     
     private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -128,6 +146,19 @@ public class AuthController extends HttpServlet {
         HttpSession session = req.getSession();
 		session.invalidate();
 		req.getRequestDispatcher("/login.jsp").forward(req, resp);
+    }
+
+    private void verify(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = (User) req.getSession().getAttribute("user");
+        String password = req.getParameter("old-password");
+
+        if(Encryptor.verifyPassword(password, user.getPassword())) {
+            req.setAttribute("verified", true);
+        } else {
+            req.setAttribute("verified", false);
+        }
+
+        req.getRequestDispatcher("/user.jsp").forward(req, resp);
     }
     
     private void find(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

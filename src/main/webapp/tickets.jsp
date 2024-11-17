@@ -20,8 +20,8 @@
         </c:when>
 
         <c:otherwise>
-            <c:set var="listUnresolved" value="${sessionScope.listUnresolved}"/>
             <c:set var="listSolved" value="${sessionScope.listSolved}"/>
+            <c:set var="listUnresolved" value="${sessionScope.listUnresolved}"/>
         </c:otherwise>
     </c:choose>
 

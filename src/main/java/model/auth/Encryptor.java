@@ -8,6 +8,6 @@ public class Encryptor {
     }
 
     public static String encrypt(String password) {
-        return BCrypt.withDefaults().hashToString(14, password.toCharArray());
+        return BCrypt.withDefaults().hashToString(6, password.toCharArray());
     }
 }
