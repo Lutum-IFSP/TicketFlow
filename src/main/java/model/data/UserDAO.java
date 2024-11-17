@@ -21,14 +21,33 @@ public class UserDAO {
     }
 
     public boolean insert(User user) {
+        EntityManager em = emf.createEntityManager();
         String password = Encryptor.encrypt(user.getPassword());
         user.setPassword(password);
         user.setId(UUID.randomUUID().toString());
-        EntityManager em = emf.createEntityManager();
 
         try {
             em.getTransaction().begin();
             em.persist(user);
+            em.getTransaction().commit();
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            em.close();
+        }
+    }
+
+    public boolean updatePassword(String newPassword, User user) {
+        EntityManager em = emf.createEntityManager();
+        String password = Encryptor.encrypt(newPassword);
+
+        try {
+            user.setPassword(password);
+            em.getTransaction().begin();
+            em.merge(user);
             em.getTransaction().commit();
 
             return true;
