@@ -30,7 +30,7 @@
             </div>
         </li>
         <li>
-            <a href="ticket/list">
+            <a href="ticket/list?blockAudio=1">
                 <i class="bx bx-home-alt"></i>
                 <span class="links_name">Home</span>
             </a>

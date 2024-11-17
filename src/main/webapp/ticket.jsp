@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false" %>
 <%@ page session="true" %>
-<%@ page import="model.enums.Role, model.enums.Priority, model.entity.Ticket, model.entity.User, java.util.ArrayList" %>
+<%@ page import="model.enums.Role, model.enums.Priority, model.enums.Stage, model.entity.Ticket, model.entity.User, java.util.ArrayList" %>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -43,7 +43,7 @@
 
                         <ul>
                             <c:choose>
-                                <c:when test="${tech && ticket.priority == Priority.UNDEFINED}">
+                                <c:when test="${tech && ticket.priority == Priority.UNDEFINED && ticket.stage == Stage.OPEN}">
                                     <li>
                                         <form action="ticket/change" method="POST">
                                             <input type="text" name="id" value="${ticket.id}" hidden>
@@ -107,22 +107,23 @@
                                 </div>
                             </c:otherwise>
                         </c:choose>
+                        <c:if test="${ticket.stage == Stage.OPEN}" >
+                            <hr>
 
-                        <hr>
+                            <form action="note/post" method="post">
+                                <input type="text" name="ticketId" value="${ticket.id}" style="display: none" hidden>
 
-                        <form action="note/post" method="post">
-                            <input type="text" name="ticketId" value="${ticket.id}" style="display: none" hidden>
+                                <div id="editor-wrap">
+                                    <label for="editor"><h3>Converse com a equipe</h3></label>
+                                    <div id="editor" onchange="setInput()"></div>
+                                    <input type="text" id="editor-input" name="editor" style="display: none" value="" required>
+                                </div>
 
-                            <div id="editor-wrap">
-                                <label for="editor"><h3>Converse com a equipe</h3></label>
-                                <div id="editor" onchange="setInput()"></div>
-                                <input type="text" id="editor-input" name="editor" style="display: none" value="" required>
-                            </div>
-
-                            <div id="botao">
-                                <button type="submit" id="enviarNote"><i class='bx bx-send'></i></button>
-                            </div>
-                        </form>
+                                <div id="botao">
+                                    <button type="submit" id="enviarNote"><i class='bx bx-send'></i></button>
+                                </div>
+                            </form>
+                        </c:if>
 
                         <hr>
 
@@ -130,14 +131,30 @@
 
                         <div id="botoes">
                             <a href="ticket/list?blockAudio=1"><input type="button" value="VOLTAR"></a>
-                            <c:if test="${tech}" >
-                                <a href="ticket/close?id=${ticket.id}"><input type="button" value="FINALIZAR CHAMADO"></a>
+                            <c:if test="${tech && ticket.stage == Stage.OPEN}" >
+                                <a><input type="button" onclick="openModalDelete()" value="FINALIZAR CHAMADO"></a>
                             </c:if>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
+
+        <div id="confirm-vignette">
+            <div id="confirm-modal">
+                <div id="confirm-info">
+                    <i class='bx bx-x-circle img'></i>
+                    <h1>Você tem certeza?</h1>
+                    <h4>Esta ação é irreversível</h4>
+
+                    <div id="confirm-buttons">
+                        <button class="confirm-buttons" onclick="closeModalDelete()" id="cancel">Cancelar</button>
+                        
+                        <a href="ticket/close?id=${ticket.id}"><button class="confirm-buttons" id="confirm">Confirmar</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Error popup -->
         <div class="toast">
@@ -171,5 +188,26 @@
         });
         
         observer.observe(elementToObserve, {characterData: true, childList: false, attributes: false, subtree: true});
+
+        function openModalDelete() {
+            let modal = document.getElementById("confirm-vignette");
+            let info = document.getElementById("confirm-info");
+
+            modal.style.display = "block";
+            info.classList.add("slide-in-blurred-bottom");
+        }
+        function closeModalDelete() {
+            let modal = document.getElementById("confirm-vignette");
+            let info = document.getElementById("confirm-info");
+
+            info.classList.add("slide-out-blurred-bottom");
+
+            setTimeout(() => {
+                modal.style.display = "none";
+                info.classList.remove("slide-in-blurred-bottom");
+                info.classList.remove("slide-out-blurred-bottom");
+            }, 600);
+
+        }
     </script>
 </html>

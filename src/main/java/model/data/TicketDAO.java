@@ -128,7 +128,7 @@ public class TicketDAO {
         ArrayList<Ticket> listTickets = new ArrayList<Ticket>();
 
         try {
-            Query query = em.createQuery("from " + Ticket.class.getName() + " where priority = :p");
+            Query query = em.createQuery("from " + Ticket.class.getName() + " where priority = :p and stage = 'OPEN'");
             query.setParameter("p", priority);		
 			listTickets = (ArrayList<Ticket>) query.getResultList();
         } catch (Exception e) {

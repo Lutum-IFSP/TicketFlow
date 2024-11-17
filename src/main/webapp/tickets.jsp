@@ -328,6 +328,57 @@
                 <!-- Create Ticket End -->
             </c:otherwise>
         </c:choose>
+¨
+        <c:if test="${!empty requestScope.deleteStatus}" >
+            <div id="status-vignette">
+                <div id="status-modal">
+                    <div id="status-info">
+                        <c:choose>
+                            <c:when test="${(requestScope.deleteStatus == true)}">
+                                <div id="status-circle"><i class='bx bx-check' ></i></div>
+                            </c:when>
+                            
+                            <c:otherwise>
+                                <div id="status-circle"><i class='bx bx-x' ></i></div>
+                            </c:otherwise>
+                        </c:choose>
+                        <i class='bx bx-x' onclick="closeDeleteModal()"></i>
+                        
+                        <c:choose>
+                            <c:when test="${(requestScope.deleteStatus == true)}">
+                                <h1>Success</h1>
+                            </c:when>
+                            
+                            <c:otherwise>
+                                <h1>An error occured</h1>
+                            </c:otherwise>
+                        </c:choose>
+                        <button onclick="closeDeleteModal()">Ok</button>
+                    </div>
+                </div>
+            </div>
+
+            <c:if test="${requestScope.deleteStatus == false}" >
+                <script>
+                    let modal = document.getElementById("status-info");
+                    let circle = document.getElementById("status-circle");
+                    let button = document.querySelector("#status-info button");
+
+                    modal.style.borderTopColor = "red";
+                    circle.style.backgroundColor = "red";
+                    circle.style.boxShadow = "0px 0px 10px 5px rgba(255, 0, 0, 0.397)"
+                    button.style.backgroundColor = "red";
+                </script>
+            </c:if>
+
+            <script>
+                function closeDeleteModal() {
+                    let modal = document.getElementById("status-vignette");
+
+                    modal.style.display = "none";
+                }
+            </script>
+        </c:if>
     </main>
 
     <c:if test="${!tech}" >
@@ -345,7 +396,6 @@
             observer.observe(elementToObserve, {characterData: true, childList: false, attributes: false, subtree: true});
         </script>
     </c:if>
-
 
     <script>
         function abrirmodelNewTicket(){

@@ -38,7 +38,7 @@ function autocompleteClose() {
     setTimeout(() => {
         autocomplete.style.display = "none";
         autocomplete.style.maxHeight = "0vh";
-    }, 100) 
+    }, 300) 
 }
 
 function setList() {

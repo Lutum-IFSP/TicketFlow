@@ -56,6 +56,10 @@ public class TicketController extends HttpServlet {
             case "search":
                 searchTicket(req, resp);
                 break;
+
+            case "close":
+                closeTicket(req, resp);
+                break;
         
             default:
                 System.out.println("TicketError: Error! Request not found!");
@@ -124,7 +128,8 @@ public class TicketController extends HttpServlet {
         ticket.setClosed(Instant.now());
 
         boolean status = dao.update(ticket);
-        req.setAttribute("status", status);
+        req.setAttribute("deleteStatus", status);
+        req.setAttribute("blockAudio", true);
 
         req.getRequestDispatcher("/ticket/list").forward(req, resp);
     }
