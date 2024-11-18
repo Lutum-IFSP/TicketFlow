@@ -1,9 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false" %>
 <%@ page session="true" %>
 <%@ page import="model.entity.User" %>
+
+<fmt:setBundle basename="ticketflow" scope="application" />
+
 <!DOCTYPE html>
     <html lang="pt-br">
     <head>
@@ -39,15 +43,15 @@
             <h3><c:out value="${user.role}"/></h3>
             <h4><c:out value="${user.email}"/></h4>
             <hr>
-            <h5>Password</h5>
-            <button onclick="changePassword()" id="button">Change Password</button>
+            <h5><fmt:message key="pass_placeholder" /></h5>
+            <button onclick="changePassword()" id="button"><fmt:message key="change_password" /></button>
 
             <div id="type-old-password" style="display: none;">
                 <form action="auth/verify" method="post">
-                    <label for="old-password">Type your password</label>
+                    <label for="old-password"><fmt:message key="old_password" /></label>
                     <input type="text" id="old-password" name="old-password"><br>
 
-                    <input type="submit" value="Verify Old Password">
+                    <input type="submit" value="<fmt:message key="verify_old" />">
                 </form>
             </div>
 
@@ -55,18 +59,18 @@
                 <div id="new-password-form" style="display: none;">
                     <form action="auth/newpassword" method="post">
                         <label for="password"></label>
-                        <input type="password" id="password" name="password" placeholder="New Password" required>
+                        <input type="password" id="password" name="password" placeholder="<fmt:message key="new_password" />" required>
                         <label for="passwordConfirm"></label>
-                        <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="Confirm New Password" required><br>
+                        <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="<fmt:message key="confirm_password" />" required><br>
 
-                        <input type="submit" onclick="return validatePassword()" value="Change Password">
+                        <input type="submit" onclick="return validatePassword()" value="<fmt:message key="change_password" />">
                     </form>
                 </div>
             </c:if>
 
             <c:if test="${status != null && status}"> 
                 <div id="status-div">
-                    <h5>Password Changed!</h5>
+                    <h5><fmt:message key="changed_password" /></h5>
                 </div>
             </c:if>
 
@@ -76,8 +80,8 @@
                     <i class="fas fa-solid fa-times times"></i>
 
                     <div class="message">
-                        <span class="text text-1">Ocorreu um erro</span>
-                        <span class="text text-2">Senha incorreta</span>
+                        <span class="text text-1"><fmt:message key="error_message" /></span>
+                        <span class="text text-2"><fmt:message key="error_detail_user" /></span>
                     </div>
                 </div>
                 <i class="fa-solid fa-xmark close"></i>
@@ -93,28 +97,32 @@
             </c:if>
             <!-- Error popup end-->
         </main>
-
-        <script>
-            let pass = document.getElementById('password');
-            let passC = document.getElementById('passwordConfirm');
-
-            function validatePasswod() {
-                if (pass.value != passC.value) {
-                    passC.setCustomValidity("Senhas diferentes!");
-                    passC.reportValidity();
-                    return false;
-                } else {
-                    passC.setCustomValidity("");
-                    return true;
-                }
-            }
-
-            passC.addEventListener('input', validatePasswod);
-
-            function changePassword() {
-                document.getElementById("type-old-password").style = "display: flex;";
-            }
-
-        </script>
     </body>
+
+    <p id="different-out" style="display: none;"><fmt:message key="different_password" /></p>
+
+    <script>
+        let pass = document.getElementById('password');
+        let passC = document.getElementById('passwordConfirm');
+
+        let different = document.getElementById('different-out');
+
+        function validatePassword() {
+            if (pass.value != passC.value) {
+                passC.setCustomValidity(different.innerText);
+                passC.reportValidity();
+                return false;
+            } else {
+                passC.setCustomValidity("");
+                return true;
+            }
+        }
+
+        passC.addEventListener('input', validatePassword);
+
+        function changePassword() {
+            document.getElementById("type-old-password").style = "display: flex;";
+        }
+
+    </script>
 </html>

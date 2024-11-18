@@ -1,9 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false" %>
 <%@ page session="true" %>
 <%@ page import="model.enums.Role, model.enums.Priority, model.entity.Ticket, model.entity.User, java.util.ArrayList" %>
+
+<fmt:setBundle basename="ticketflow" scope="application" />
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -68,8 +72,8 @@
             <i class="fas fa-solid fa-times times"></i>
 
             <div class="message">
-                <span class="text text-1">Ocorreu um erro</span>
-                <span class="text text-2">Erro ao detalhar ticket</span>
+                <span class="text text-1"><fmt:message key="error_message" /></span>
+                <span class="text text-2"><fmt:message key="error_detail_list" /></span>
             </div>
         </div>
         <i class="fa-solid fa-xmark close"></i>
@@ -98,7 +102,7 @@
                         %>
 
                         <ul>
-                            <h3>High Urgency</h3>
+                            <h3><fmt:message key="high_urgency" /></h3>
                             <c:choose>
                                 <c:when test="${listHigh.size() > 0}">
                                     <c:forEach begin="1" end="${listHigh.size()}" varStatus="loop">
@@ -113,7 +117,7 @@
 
                                 <c:otherwise>
                                     <li>
-                                        <span class="title" style="color: rgb(105, 105, 72);">No tickets here</span>
+                                        <span class="title" style="color: rgb(105, 105, 72);"><fmt:message key="no_tickets" /></span>
                                     </li>
                                 </c:otherwise>
                             </c:choose>
@@ -128,7 +132,7 @@
                     
                     <div id="listaMediaUrgencia" class="lista">
                         <ul>
-                            <h3>Medium Urgency</h3>
+                            <h3><fmt:message key="mid_urgency" /></h3>
                             <c:choose>
                                 <c:when test="${listMid.size() > 0}">
                                     <c:forEach begin="1" end="${listMid.size()}" varStatus="loop">
@@ -143,7 +147,7 @@
 
                                 <c:otherwise>
                                     <li>
-                                        <span class="title" style="color: rgb(105, 105, 72);">No tickets here</span>
+                                        <span class="title" style="color: rgb(105, 105, 72);"><fmt:message key="no_tickets" /></span>
                                     </li>
                                 </c:otherwise>
                             </c:choose>
@@ -158,7 +162,7 @@
 
                     <div id="listaBaixaUrgencia" class="lista">
                         <ul>
-                            <h3>Low Urgency</h3>
+                            <h3><fmt:message key="low_urgency" /></h3>
                             <c:choose>
                                 <c:when test="${listLow.size() > 0}">
                                     <c:forEach begin="1" end="${listLow.size()}" varStatus="loop">
@@ -173,7 +177,7 @@
 
                                 <c:otherwise>
                                     <li>
-                                        <span class="title" style="color: rgb(105, 105, 72);">No tickets here</span>
+                                        <span class="title" style="color: rgb(105, 105, 72);"><fmt:message key="no_tickets" /></span>
                                     </li>
                                 </c:otherwise>
                             </c:choose>
@@ -188,7 +192,7 @@
                     
                     <div id="listaNaoClassificado" class="lista">
                         <ul>
-                            <h3>Undefined</h3>
+                            <h3><fmt:message key="undefined_urgency" /></h3>
                             <c:choose>
                                 <c:when test="${listUndefined.size() > 0}">
                                     <c:forEach begin="1" end="${listUndefined.size()}" varStatus="loop">
@@ -203,7 +207,7 @@
 
                                 <c:otherwise>
                                     <li>
-                                        <span class="title" style="color: rgb(105, 105, 72);">No tickets here</span>
+                                        <span class="title" style="color: rgb(105, 105, 72);"><fmt:message key="no_tickets" /></span>
                                     </li>
                                 </c:otherwise>
                             </c:choose>
@@ -223,7 +227,7 @@
                 <div id="listas">
                     <div id="ticketsRespondidos" class="lista">
                         <ul>
-                            <h3>Solved</h3>
+                            <h3><fmt:message key="solved_tickets" /></h3>
                             <c:choose>
                                 <c:when test="${listSolved.size() > 0}">
                                     <c:forEach begin="1" end="${listSolved.size()}" varStatus="loop">
@@ -238,7 +242,7 @@
 
                                 <c:otherwise>
                                     <li>
-                                        <span class="title" style="color: rgb(105, 105, 72);">No tickets here</span>
+                                        <span class="title" style="color: rgb(105, 105, 72);"><fmt:message key="no_tickets" /></span>
                                     </li>
                                 </c:otherwise>
                             </c:choose>
@@ -253,7 +257,7 @@
 
                     <div id="ticketsAbertos" class="lista">
                         <ul>
-                            <h3>Unsolved</h3>
+                            <h3><fmt:message key="unsolved_tickets" /></h3>
                             <c:choose>
                                 <c:when test="${listUnresolved.size() > 0}">
 
@@ -287,7 +291,7 @@
 
                                 <c:otherwise>
                                     <li>
-                                        <span class="title" style="color: rgb(105, 105, 72);">No tickets here</span>
+                                        <span class="title" style="color: rgb(105, 105, 72);"><fmt:message key="no_tickets" /></span>
                                     </li>
                                 </c:otherwise>
                             </c:choose>
@@ -307,19 +311,19 @@
                         <div id="formTicket">
                             <span class="material-symbols-outlined" id="close" onclick="fecharmodelNewTicket()">close</span>
                             <form action="ticket/create" method="post">
-                                <div style="margin-bottom: -200px;">
-                                    <label for="titulo">Título do ticket</label>
+                                <div>
+                                    <label for="titulo"><fmt:message key="new_title" /></label>
                                     <input type="text" id="titulo" name="titulo" maxlength="255" required>
                                 </div>
 
                                 <div id="editor-wrap">
-                                    <label for="editor">Descreva com detalhes o seu problema/dúvida</label>
+                                    <label for="editor"><fmt:message key="new_editor" /></label>
                                     <div id="editor"></div>
                                     <input type="text" id="editor-input" name="editor" style="display: none" value="" required>
                                 </div>
 
                                 <div>
-                                    <input type="submit" value="ENVIAR" id="enviarTicket" name="enviarTicket">
+                                    <input type="submit" value="<fmt:message key="button_editor" />" id="enviarTicket" name="enviarTicket">
                                 </div>
                             </form>
                         </div>
@@ -346,14 +350,14 @@
                         
                         <c:choose>
                             <c:when test="${(requestScope.deleteStatus == true)}">
-                                <h1>Success</h1>
+                                <h1><fmt:message key="success_message" /></h1>
                             </c:when>
                             
                             <c:otherwise>
-                                <h1>An error occured</h1>
+                                <h1><fmt:message key="error_message" /></h1>
                             </c:otherwise>
                         </c:choose>
-                        <button onclick="closeDeleteModal()">Ok</button>
+                        <button onclick="closeDeleteModal()"><fmt:message key="button_ok" /></button>
                     </div>
                 </div>
             </div>

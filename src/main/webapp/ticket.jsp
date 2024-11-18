@@ -1,9 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false" %>
 <%@ page session="true" %>
 <%@ page import="model.enums.Role, model.enums.Priority, model.enums.Stage, model.entity.Ticket, model.entity.User, java.util.ArrayList" %>
+
+<fmt:setBundle basename="ticketflow" scope="application" />
+
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -50,29 +54,57 @@
 
                                             <label for="priority"><span>Priority: </span></label>
                                             <select name="priority" id="priority" onchange="this.form.submit()">
-                                                <option value="0" ${(ticket.priority == Priority.UNDEFINED) ? "selected" : ""}>UNDEFINED</option>
-                                                <option value="1" ${(ticket.priority == Priority.LOW) ? "selected" : ""}>LOW</option>
-                                                <option value="2" ${(ticket.priority == Priority.MID) ? "selected" : ""}>MID</option>
-                                                <option value="3" ${(ticket.priority == Priority.HIGH) ? "selected" : ""}>HIGH</option>
+                                                <option value="0" ${(ticket.priority == Priority.UNDEFINED) ? "selected" : ""}><fmt:message key="undefined_priority" /></option>
+                                                <option value="1" ${(ticket.priority == Priority.LOW) ? "selected" : ""}><fmt:message key="low_priority" /></option>
+                                                <option value="2" ${(ticket.priority == Priority.MID) ? "selected" : ""}><fmt:message key="mid_priority" /></option>
+                                                <option value="3" ${(ticket.priority == Priority.HIGH) ? "selected" : ""}><fmt:message key="high_priority" /></option>
                                             </select>
                                         </form>
                                     </li>
                                 </c:when>
                                 
                                 <c:otherwise>
-                                    <li><span>Priority: </span><c:out value="${ticket.priority}"/></li>
+                                    <li><span><fmt:message key="priority_label" />: </span>
+                                        <c:choose>
+                                            <c:when test="${ticket.priority == Priority.UNDEFINED}">
+                                                <fmt:message key="undefined_priority" />
+                                            </c:when>
+                                            
+                                            <c:when test="${ticket.priority == Priority.LOW}" >
+                                                <fmt:message key="low_priority" />
+                                            </c:when>
+
+                                            <c:when test="${ticket.priority == Priority.MID}" >
+                                                <fmt:message key="mid_priority" />
+                                            </c:when>
+
+                                            <c:otherwise>
+                                                <fmt:message key="high_priority" />
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </li>
                                 </c:otherwise>
                             </c:choose>
-                            <li><span>Stage: </span> <c:out value="${ticket.stage}"/></li>
-                            <li><span>Created: </span> <c:out value="${ticket.created}"/></li>
-                            <li><span>Update: </span> <c:out value="${ticket.updated}"/></li>
-                            <li><span>Closed: </span> <c:out value="${ticket.closed}"/></li>
-                            <li><span>Author: </span> <img src="${author.image}">${author.username}</li>
+                            <li><span><fmt:message key="stage_label" />: </span> 
+                                <c:choose>
+                                    <c:when test="${ticket.stage == Stage.OPEN}">
+                                        <fmt:message key="open_stage" />
+                                    </c:when>
+                                    
+                                    <c:otherwise>
+                                        <fmt:message key="closed_stage" />
+                                    </c:otherwise>
+                                </c:choose>
+                            </li>
+                            <li><span><fmt:message key="created_label" />: </span> <c:out value="${ticket.created}"/></li>
+                            <li><span><fmt:message key="updated_label" />: </span> <c:out value="${ticket.updated}"/></li>
+                            <li><span><fmt:message key="closed_label" />: </span> <c:out value="${ticket.closed}"/></li>
+                            <li><span><fmt:message key="author_label" />: </span> <img src="${author.image}"> ${author.username}</li>
                         </ul>
                     </div>
 
                     <div id="descricao">
-                        <h4>Description:</h4>
+                        <h4><fmt:message key="description_label" />: </h4>
                         <div>
                             ${ticket.description}
                         </div>
@@ -87,8 +119,8 @@
                                             <img src="${notes.get(loop.index - 1).poster.image}" alt="${notes.get(loop.index - 1).poster.username}">
                                             <h4>${notes.get(loop.index - 1).poster.username} (${notes.get(loop.index - 1).poster.role})</h4>
                                             <div class="datas">
-                                                <p>Send at: ${fn:substringBefore(notes.get(loop.index - 1).send, "T")} ${fn:substring(fn:substringAfter(notes.get(loop.index - 1).send, "T"), 0, 5)}</p>
-                                                <p>; Updated at: ${fn:substringBefore(notes.get(loop.index - 1).updated, "T")} ${fn:substring(fn:substringAfter(notes.get(loop.index - 1).updated, "T"), 0, 5)}</p>
+                                                <p><fmt:message key="send_label" />: ${fn:substringBefore(notes.get(loop.index - 1).send, "T")} ${fn:substring(fn:substringAfter(notes.get(loop.index - 1).send, "T"), 0, 5)}</p>
+                                                <p><fmt:message key="updated_label" />: ${fn:substringBefore(notes.get(loop.index - 1).updated, "T")} ${fn:substring(fn:substringAfter(notes.get(loop.index - 1).updated, "T"), 0, 5)}</p>
                                             </div>
                                         </div>
                                         <div class="res">
@@ -101,9 +133,9 @@
                             <c:otherwise>
                                 <div id="no-notes">
                                     <img src="image/empty.png" alt="">
-                                    <h1>Oops...</h1>
-                                    <span style="color: rgb(105, 105, 72);">No note had been posted yet</span>
-                                    <button onclick="document.getElementById('editor-wrap').scrollIntoView();">Post your own note</button>
+                                    <h1><fmt:message key="empty_h1" /></h1>
+                                    <span style="color: rgb(105, 105, 72);"><fmt:message key="empty_span" /></span>
+                                    <button onclick="document.getElementById('editor-wrap').scrollIntoView();"><fmt:message key="empty_button" /></button>
                                 </div>
                             </c:otherwise>
                         </c:choose>
@@ -114,7 +146,7 @@
                                 <input type="text" name="ticketId" value="${ticket.id}" style="display: none" hidden>
 
                                 <div id="editor-wrap">
-                                    <label for="editor"><h3>Converse com a equipe</h3></label>
+                                    <label for="editor"><h3><fmt:message key="editor_label" /></h3></label>
                                     <div id="editor" onchange="setInput()"></div>
                                     <input type="text" id="editor-input" name="editor" style="display: none" value="" required>
                                 </div>
@@ -130,9 +162,9 @@
                         <c:set var="blockAudio" scope="request" value="true"/>
 
                         <div id="botoes">
-                            <a href="ticket/list?blockAudio=1"><input type="button" value="VOLTAR"></a>
+                            <a href="ticket/list?blockAudio=1"><input type="button" value="<fmt:message key="back_button" />"></a>
                             <c:if test="${tech && ticket.stage == Stage.OPEN}" >
-                                <a><input type="button" onclick="openModalDelete()" value="FINALIZAR CHAMADO"></a>
+                                <a><input type="button" onclick="openModalDelete()" value="<fmt:message key="close_button" />"></a>
                             </c:if>
                         </div>
                     </div>
@@ -144,13 +176,13 @@
             <div id="confirm-modal">
                 <div id="confirm-info">
                     <i class='bx bx-x-circle img'></i>
-                    <h1>Você tem certeza?</h1>
-                    <h4>Esta ação é irreversível</h4>
+                    <h1><fmt:message key="confirm_h1" /></h1>
+                    <h4><fmt:message key="confirm_h4" /></h4>
 
                     <div id="confirm-buttons">
-                        <button class="confirm-buttons" onclick="closeModalDelete()" id="cancel">Cancelar</button>
+                        <button class="confirm-buttons" onclick="closeModalDelete()" id="cancel"><fmt:message key="buttons_cancel" /></button>
                         
-                        <a href="ticket/close?id=${ticket.id}"><button class="confirm-buttons" id="confirm">Confirmar</button></a>
+                        <a href="ticket/close?id=${ticket.id}"><button class="confirm-buttons" id="confirm"><fmt:message key="buttons_confirm" /></button></a>
                     </div>
                 </div>
             </div>
@@ -162,8 +194,8 @@
                 <i class="fas fa-solid fa-times times"></i>
 
                 <div class="message">
-                    <span class="text text-1">Ocorreu um erro</span>
-                    <span class="text text-2">Erro ao fazer uma nota</span>
+                    <span class="text text-1"><fmt:message key="error_message" /></span>
+                    <span class="text text-2"><fmt:message key="error_detail_note" /></span>
                 </div>
             </div>
             <i class="fa-solid fa-xmark close"></i>
