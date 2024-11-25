@@ -25,6 +25,7 @@ import model.services.ImageService;
 
 @MultipartConfig
 @WebServlet("/auth/*")
+
 public class AuthController extends HttpServlet {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("ticketflow");
     UserDAO dao;
@@ -44,6 +45,7 @@ public class AuthController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getRequestURI();
+        System.out.println(path);
         switch (path.substring(path.lastIndexOf("/") + 1, path.length())) {
             case "logout":
                 logout(req, resp);
@@ -60,11 +62,24 @@ public class AuthController extends HttpServlet {
             case "find":
                 find(req, resp);
                 break;
+
+            case "empty":
+                verifyEmpty(req, resp);
+                break;
+
+            case "verify": 
+                verify(req, resp);
+                break;
+
+            case "ticket.css":
+                break;
         
             default:
                 System.out.println("GAuthError: Error! Request not found!");
                 break;
         }
+        System.out.println("saiu");
+        System.out.println(req.getAttribute("jakarta.servlet.forward.request_uri"));
     }
 
     @Override
@@ -77,10 +92,6 @@ public class AuthController extends HttpServlet {
             
             case "login":
                 login(req, resp);
-                break;
-
-            case "verify": 
-                verify(req, resp);
                 break;
 
             case "changepassword":
@@ -168,6 +179,18 @@ public class AuthController extends HttpServlet {
         
         req.setAttribute("user", user);
         req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
+    }
+
+    private void verifyEmpty(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = dao.findByUsername("admin");
+
+        if (user == null) {
+            User admin = new User("admin", "admin@admin", "admin", Role.ADMIN, "image/user.png");
+            dao.insert(admin);
+        }
+        user = null;
+
+        req.getRequestDispatcher("/login.jsp").forward(req, resp);
     }
 
     private void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

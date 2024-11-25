@@ -46,7 +46,7 @@ public class NoteController extends HttpServlet {
                 break;
 
             default:
-                System.out.println("PostError: Error! Request not found!");
+                System.out.println("PNoteError: Error! Request not found!");
                 break;
         }
     }

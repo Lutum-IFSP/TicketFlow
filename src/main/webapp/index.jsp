@@ -19,7 +19,7 @@
             </c:when>
         
             <c:otherwise>
-                <c:redirect url="login.jsp" />
+                <c:redirect url="auth/empty"/>
             </c:otherwise>
         </c:choose>
     </body>

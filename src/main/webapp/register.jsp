@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false" %>
-<%@ page import="model.entity.User" %>
+<%@ page import="model.entity.User, model.enums.Role" %>
 
 <fmt:setBundle basename="ticketflow" scope="application" />
 
@@ -19,6 +19,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
         <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon">
         <title><fmt:message key="title_register" /></title>
+        <c:set var="user" value="${sessionScope.user}" />
+        <c:if test="${user == null || user.role != Role.ADMIN}">
+            <meta http-equiv="refresh" content="0; url=${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/">
+        </c:if>
     </head>
     <body>
         <div id="cir1" class="circle"></div>

@@ -62,7 +62,7 @@ public class TicketController extends HttpServlet {
                 break;
         
             default:
-                System.out.println("TicketError: Error! Request not found!");
+                System.out.println("GTicketError: Error! Request not found!");
                 break;
         }
     }
@@ -85,7 +85,7 @@ public class TicketController extends HttpServlet {
                 break;
 
             default:
-                System.out.println("TicketError: Error! Request not found!");
+                System.out.println("PTicketError: Error! Request not found!");
                 break;
         }
     }

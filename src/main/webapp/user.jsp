@@ -11,20 +11,8 @@
 <!DOCTYPE html>
     <html lang="pt-br">
     <head>
+        <base href="${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/" />
         <c:set var="user" value="${sessionScope.user}"/>
-        <c:if test="${requestScope.verified != null}">
-            <c:set var="verified" value="${requestScope.verified}"/>
-            <c:if test="${verified}">
-                <script>
-                    let newPassForm = document.getElementById("new-password-form");
-                    let typeOldPass = document.getElementById("type-old-password");
-
-                    newPassForm.style = "display: flex;";
-                    typeOldPass.style = "display: none;";
-                </script>
-            </c:if>
-        </c:if>
-
         <c:if test="${requestScope.status != null}">
             <c:set var="status" value="${requestScope.status}"/>
         </c:if>
@@ -36,6 +24,20 @@
         <title><c:out value="${user.username}"/></title>
     </head>
     <body>
+
+        <%--<c:if test="${requestScope.verified != null}">
+            <c:set var="verified" value="${requestScope.verified}"/>
+            <c:if test="${verified}">
+                <script>
+                    let newPassForm = document.querySelector("#new-password-form");
+                    let typeOldPass = document.querySelector("#type-old-password");
+
+                    newPassForm.style.display = "flex";
+                    typeOldPass.style.display = "none";
+                </script>
+            </c:if>
+        </c:if>--%>
+
         <main style="margin-left: 8%;">
             <c:import url="sidebar.jsp" />
 
@@ -47,7 +49,7 @@
             <button onclick="changePassword()" id="button"><fmt:message key="change_password" /></button>
 
             <div id="type-old-password" style="display: none;">
-                <form action="auth/verify" method="post">
+                <form action="auth/verify" method="get">
                     <label for="old-password"><fmt:message key="old_password" /></label>
                     <input type="text" id="old-password" name="old-password"><br>
 
