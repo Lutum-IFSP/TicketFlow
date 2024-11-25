@@ -137,10 +137,19 @@ public class TicketController extends HttpServlet {
     private void detailTicket(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         Ticket ticket = dao.getById(id);
+        HttpSession session = req.getSession();
 
         if(ticket != null) {
-            ArrayList<Note> notes = noteDAO.getAll(ticket);
             User author = ticket.getUser();
+            User user = (User) session.getAttribute("user");
+
+            if (!author.equals(user) && user.getRole() == Role.USER) {
+                req.setAttribute("errorGetTicket", true);
+                req.setAttribute("blockAudio", true);
+                req.getRequestDispatcher("/ticket.jsp").forward(req, resp);
+            }
+
+            ArrayList<Note> notes = noteDAO.getAll(ticket);
             
             req.setAttribute("ticket", ticket);
             req.setAttribute("notes", notes);
