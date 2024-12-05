@@ -68,7 +68,7 @@
             <span class="tooltip"><fmt:message key="user_tooltip" /></span>
         </li>
         <li>
-            <a href="#">
+            <a href="settings.jsp">
                 <i class="bx bx-cog"></i>
                 <span class="links_name"><fmt:message key="settings_tooltip" /></span>
             </a>
