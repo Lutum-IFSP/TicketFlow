@@ -1,3 +1,12 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: linear-gradient(to left bottom, #F3F1C4, #FFFEE9);
+}
+
 @font-face {
     font-family: 'RobotoMono';
     src: url("font/RobotoMono-VariableFont_wght.ttf");
@@ -5,6 +14,30 @@
 
 main{
     font-family: RobotoMono;
+    width: 100%;
+    height: 100vh;
+}
+
+.circle {
+    width: 55vw;
+    height: 55vw;
+    border-radius: 100%;
+    position: fixed;
+    border: 1px solid #94964A;
+    z-index: -1;
+    box-shadow: 6px -3px 6px 0px rgba(0, 0, 0, 0.212);
+}
+
+#cir1 {
+    background: linear-gradient(to left bottom, #F9FC7D 30%, #94964A);
+    top: -22vw;
+    left: -17vw;
+}
+
+#cir2 {
+    background: linear-gradient(to left bottom, #F9FC7D 50%, #94964A);
+    right: -12vw;
+    bottom: -28vw;
 }
 
 #user{

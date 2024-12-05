@@ -14,9 +14,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TicketFlow - Configurações</title>
-    <link rel="icon" type="image/x-icon" href="image/icon.png">
+    <link rel="icon" type="image/x-icon" href="image/favicon.ico">
     <link rel="stylesheet" href="css/setting.css">
-    <link rel="stylesheet" href="css/fundo.css">
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -45,8 +44,6 @@
                 <div id="infoConta">
                     <form action="user/update" method="post">
                         <p>Cargo: </p>
-                        <label for="nomeUsuario"></label>
-                        <input type="text" id="nomeUsuario" name="nomeUsuario" placeholder="Nome do usuário" value="${user.name}">
                         <label for="apelido"></label>
                         <input type="text" id="apelido" name="apelido" placeholder="Username" value="${user.username}">
                         <label for="emailUsuario"></label>
@@ -182,7 +179,7 @@
                         <input type="text" id="pesquisarUser" name="pesquisarUser" placeholder="Search...">
                     </div>
                     <div class="userInfo" onclick="infoUsuarios()">
-                        <img src="image/user.webp">
+                        <img src="${user.image}">
                         <h3>Nome do usuário</h3>
                     </div>
                 </div>
@@ -192,7 +189,7 @@
                         <i class='bx bx-x' onclick="voltarCrud()"></i>
                     </div>
                     <div class="imagemPerfil">
-                        <img src="image/user.webp">
+                        <img src="${user.image}">
                         <label for="edit"></label>
                         <button class="edit-button">
                             <label for="edit">
@@ -249,25 +246,6 @@
 
         </main>
         <script>
-            let sidebar = document.querySelector(".sidebar");
-            let closeBtn = document.querySelector("#btn");
-            let searchBtn = document.querySelector(".bx-search");
-            closeBtn.addEventListener("click", () => {
-                sidebar.classList.toggle("open");
-                menuBtnChange();
-            });
-            searchBtn.addEventListener("click", () => {
-                sidebar.classList.toggle("open");
-                menuBtnChange(); 
-            });
-            function menuBtnChange() {
-                if (sidebar.classList.contains("open")) {
-                    closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-                } else {
-                    closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-                }
-            }
-
             function user(){
                 let user = document.querySelector("div#painelUser")
                 let customize = document.querySelector("div#customize")
