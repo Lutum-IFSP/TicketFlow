@@ -25,6 +25,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
         <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon">
         <link rel="stylesheet" href="css/toast.css">
+        <link rel="stylesheet" href="css/high_contrast.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
@@ -207,6 +208,8 @@
             <script src="js/toast.js"></script>
         </c:if>
     </body>
+
+    <script src="js/high_contrast.js"></script>
 
     <script>
         const quill = new Quill('#editor', {

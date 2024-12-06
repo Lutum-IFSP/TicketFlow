@@ -15,6 +15,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/login.css">
         <link rel="stylesheet" href="css/toast.css">
+        <link rel="stylesheet" href="css/high_contrast.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
         <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon">
         <title><fmt:message key="title_login" /></title>
@@ -57,6 +58,8 @@
             <div class="loader"></div> 
         </div>
     </body>
+
+    <script src="js/high_contrast.js"></script>
 
     <script>
         let btn = document.querySelector("#botao");

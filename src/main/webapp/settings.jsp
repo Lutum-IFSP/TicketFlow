@@ -16,6 +16,7 @@
     <title>TicketFlow - Configurações</title>
     <link rel="icon" type="image/x-icon" href="image/favicon.ico">
     <link rel="stylesheet" href="css/setting.css">
+    <link rel="stylesheet" href="css/high_contrast.css">
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -33,7 +34,7 @@
         <div id="user">
             <div id="painelUser" style="visibility: hidden; opacity: 0;">
                 <div class="imagemPerfil">
-                    <img src="${user.image}">
+                    <img src="${user.image}" id="imgUserSubmit">
                     <label for="edit"></label>
                     <button class="edit-button">
                         <label for="edit">
@@ -43,7 +44,8 @@
                 </div>
                 <div id="infoConta">
                     <form action="user/update" method="post">
-                        <p>Cargo: </p>
+                        <input type="file" name="image" id="hidden-image" hidden>
+                        <p>Cargo: ${user.role}</p>
                         <label for="apelido"></label>
                         <input type="text" id="apelido" name="apelido" placeholder="Username" value="${user.username}">
                         <label for="emailUsuario"></label>
@@ -61,7 +63,7 @@
                 <div>
                     <p>Alto contraste</p>
                     <div class="onoff">
-                        <input type="checkbox" class="toggle" id="onoff1">
+                        <input type="checkbox" class="toggle" id="onoff1" onclick="toggleContrast()">
                         <label for="onoff1"></label>
                     </div>
                 </div>
@@ -184,7 +186,7 @@
                     </div>
                 </div>
 
-                <div class="editarUser" style="visibility: hidden; opacity: 0;">
+                <div id="editarUser" style="visibility: hidden; opacity: 0;">
                     <div class="fecharInfoUser">
                         <i class='bx bx-x' onclick="voltarCrud()"></i>
                     </div>
@@ -245,21 +247,34 @@
         </div>
 
         </main>
+
+        <script src="js/high_contrast.js"></script>
+
+        <script>
+            if (localStorage.getItem('high-contrast') == 'true') {
+                document.getElementById("onoff1").checked = true
+            }
+        </script>
+
         <script>
             function user(){
                 let user = document.querySelector("div#painelUser")
                 let customize = document.querySelector("div#customize")
                 let croud = document.querySelector("div#croud")
                 let creators = document.querySelector("div#creators")
-                let editarUser = document.querySelector(".editarUser")
+                let editarUser = document.querySelector("#editarUser")
 
                 if(user.style.visibility == "hidden"){
                     user.style.visibility = "visible"
                     user.style.opacity = "1"
-                    editarUser.style.visibility = "hidden"
-                    editarUser.style.opacity = "0"
-                    croud.style.visibility = "hidden"
-                    croud.style.opacity = "0"
+                    if (editarUser != null) {
+                        editarUser.style.visibility = "hidden"
+                        editarUser.style.opacity = "0"
+                    }
+                    if (croud != null) {
+                        croud.style.visibility = "hidden"
+                        croud.style.opacity = "0"
+                    }
                     customize.style.visibility = "hidden"
                     customize.style.opacity = "0"
                     creators.style.visibility = "hidden"
@@ -277,15 +292,19 @@
                 let format = document.querySelector("div#format")
                 let croud = document.querySelector("div#croud")
                 let creators = document.querySelector("div#creators")
-                let editarUser = document.querySelector(".editarUser")
+                let editarUser = document.querySelector("#editarUser")
 
                 if(customize.style.visibility == "hidden"){
                     user.style.visibility = "hidden"
                     user.style.opacity = "0"
-                    editarUser.style.visibility = "hidden"
-                    editarUser.style.opacity = "0"
-                    croud.style.visibility = "hidden"
-                    croud.style.opacity = "0"
+                    if (editarUser != null) {
+                        editarUser.style.visibility = "hidden"
+                        editarUser.style.opacity = "0"
+                    }
+                    if (croud != null) {
+                        croud.style.visibility = "hidden"
+                        croud.style.opacity = "0"
+                    }
                     customize.style.visibility = "visible"
                     customize.style.opacity = "1"
                     creators.style.visibility = "hidden"
@@ -302,15 +321,19 @@
                 let customize = document.querySelector("div#customize")
                 let croud = document.querySelector("div#croud")
                 let creators = document.querySelector("div#creators")
-                let editarUser = document.querySelector(".editarUser")
+                let editarUser = document.querySelector("#editarUser")
 
                 if(creators.style.visibility == "hidden"){
                     user.style.visibility = "hidden"
                     user.style.opacity = "0"
-                    editarUser.style.visibility = "hidden"
-                    editarUser.style.opacity = "0"
-                    croud.style.visibility = "hidden"
-                    croud.style.opacity = "0"
+                    if (editarUser != null) {
+                        editarUser.style.visibility = "hidden"
+                        editarUser.style.opacity = "0"
+                    }
+                    if (croud != null) {
+                        croud.style.visibility = "hidden"
+                        croud.style.opacity = "0"
+                    }
                     customize.style.visibility = "hidden"
                     customize.style.opacity = "0"
                     creators.style.visibility = "visible"
@@ -328,13 +351,15 @@
                 let format = document.querySelector("div#format")
                 let creators = document.querySelector("div#creators")
                 let croud = document.querySelector("div#croud")
-                let editarUser = document.querySelector(".editarUser")
+                let editarUser = document.querySelector("#editarUser")
 
                 if(croud.style.visibility == "hidden"){
                     user.style.visibility = "hidden"
                     user.style.opacity = "0"
-                    editarUser.style.visibility = "hidden"
-                    editarUser.style.opacity = "0"
+                    if (editarUser != null) {
+                        editarUser.style.visibility = "hidden"
+                        editarUser.style.opacity = "0"
+                    }
                     croud.style.visibility = "visible"
                     croud.style.opacity = "1"
                     customize.style.visibility = "hidden"
@@ -350,13 +375,15 @@
 
             function infoUsuarios(){
                 let croud = document.querySelector("div#croud")
-                let editarUser = document.querySelector(".editarUser")
+                let editarUser = document.querySelector("#editarUser")
 
                 if(editarUser.style.visibility == "hidden"){
                     editarUser.style.visibility = "visible"
                     editarUser.style.opacity = "1"
-                    croud.style.visibility = "hidden"
-                    croud.style.opacity = "0"
+                    if (croud != null) {
+                        croud.style.visibility = "hidden"
+                        croud.style.opacity = "0"
+                    }
                 }
                 else{
                     editarUser.style.visibility = "hidden"
@@ -366,7 +393,7 @@
 
             function voltarCrud(){
                 let croud = document.querySelector("div#croud")
-                let editarUser = document.querySelector(".editarUser")
+                let editarUser = document.querySelector("#editarUser")
 
                 if(croud.style.visibility == "hidden"){
                     editarUser.style.visibility = "hidden"
@@ -399,6 +426,23 @@
                     customizarData.style.opacity = "0";
                 }
             }   
+        </script>
+
+        <script>
+            document.getElementById('edit').onchange = function (evt) {
+                var tgt = evt.target || window.event.srcElement,
+                    files = tgt.files;
+                
+                if (FileReader && files && files.length) {
+                    var fr = new FileReader();
+                    fr.onload = function () {
+                        document.getElementById('imgUserSubmit').src = fr.result;
+                    }
+                    fr.readAsDataURL(files[0]);
+                }
+
+                document.getElementById('hidden-image').files = document.getElementById('edit').files;
+            }
         </script>
 </body>
 </html>
