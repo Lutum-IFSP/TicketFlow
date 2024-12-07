@@ -306,31 +306,7 @@
                     </div>
                 </div> 
 
-                <!-- Create Ticket -->
-                <div id="fundo">
-                    <div id="newTicket">
-                        <div id="formTicket">
-                            <span class="material-symbols-outlined" id="close" onclick="fecharmodelNewTicket()">close</span>
-                            <form action="ticket/create" method="post">
-                                <div>
-                                    <label for="titulo"><fmt:message key="new_title" /></label>
-                                    <input type="text" id="titulo" name="titulo" maxlength="255" required>
-                                </div>
-
-                                <div id="editor-wrap">
-                                    <label for="editor"><fmt:message key="new_editor" /></label>
-                                    <div id="editor"></div>
-                                    <input type="text" id="editor-input" name="editor" style="display: none" value="" required>
-                                </div>
-
-                                <div>
-                                    <input type="submit" value="<fmt:message key="button_editor" />" id="enviarTicket" name="enviarTicket">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- Create Ticket End -->
+                <c:import url="newTicket.jsp" />
             </c:otherwise>
         </c:choose>
 ¨
@@ -387,35 +363,5 @@
     </main>
 
     <script src="js/high_contrast.js"></script>
-
-    <c:if test="${!tech}" >
-        <script>
-            const quill = new Quill('#editor', {
-                theme: 'snow'
-            });
-
-            let elementToObserve = document.getElementsByClassName("ql-editor")[0];
-
-            let observer = new MutationObserver((mutationList, observer) => {
-                document.getElementById("editor-input").setAttribute("value", document.querySelector(".ql-editor").innerHTML)
-            });
-            
-            observer.observe(elementToObserve, {characterData: true, childList: false, attributes: false, subtree: true});
-        </script>
-    </c:if>
-
-    <script>
-        function abrirmodelNewTicket(){
-            let fundo = document.getElementById("fundo")
-            
-            fundo.style.display = "block";
-        }
-
-        function fecharmodelNewTicket(){
-            let fundo = document.getElementById("fundo")
-
-            fundo.style.display = "none"
-        }
-    </script>
 </body>
 </html>

@@ -207,6 +207,10 @@
         <c:if test="${!empty param.error}" >
             <script src="js/toast.js"></script>
         </c:if>
+
+        <c:if test="${!tech}" >
+            <c:import url="newTicket.jsp" />
+        </c:if>
     </body>
 
     <script src="js/high_contrast.js"></script>

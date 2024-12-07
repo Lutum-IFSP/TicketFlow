@@ -24,8 +24,7 @@ import model.enums.Role;
 import model.services.ImageService;
 
 @MultipartConfig
-@WebServlet("/auth/*")
-
+@WebServlet({"/auth/*", "/user/*"})
 public class AuthController extends HttpServlet {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("ticketflow");
     UserDAO dao;
@@ -70,16 +69,11 @@ public class AuthController extends HttpServlet {
             case "verify": 
                 verify(req, resp);
                 break;
-
-            case "ticket.css":
-                break;
         
             default:
                 System.out.println("GAuthError: Error! Request not found!");
                 break;
         }
-        System.out.println("saiu");
-        System.out.println(req.getAttribute("jakarta.servlet.forward.request_uri"));
     }
 
     @Override
@@ -96,6 +90,10 @@ public class AuthController extends HttpServlet {
 
             case "changepassword":
                 changePassword(req, resp);
+                break;
+
+            case "update":
+                update(req, resp);
                 break;
 
             default:
@@ -199,6 +197,28 @@ public class AuthController extends HttpServlet {
         
         req.setAttribute("listUsers", listUsers);
         req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
+    }
+
+    private void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String username = req.getParameter("username");
+        String email = req.getParameter("email");
+        Part image = req.getPart("image");
+        String url = "";
+
+        if (!image.getSubmittedFileName().isEmpty()) {
+            url = imageService.uploadPart(image, username);
+        }
+
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+        user.setUsername(username);
+        user.setEmail(email);
+        if(!url.isEmpty()) {
+            user.setImage(url);
+        }
+        dao.update(user);
+
+        resp.sendRedirect(req.getContextPath() + "/settings.jsp?user=1");
     }
         
     private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

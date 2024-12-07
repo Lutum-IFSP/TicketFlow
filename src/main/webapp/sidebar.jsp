@@ -62,7 +62,7 @@
             <span class="tooltip"><fmt:message key="analytics_tooltip" /></span>
         </li>
         <li>
-            <a href="user.jsp">
+            <a href="settings.jsp?user=1">
                 <i class="bx bx-user"></i>
                 <span class="links_name"><fmt:message key="user_tooltip" /></span>
             </a>

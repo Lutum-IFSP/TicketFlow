@@ -3,3 +3,15 @@
     background-color: black;
     color: white;
 }
+
+input .contrast-mode {
+    background-image: none;
+    background-color: black;
+    color: white;
+}
+
+span #claro-escuro .contrast-mode {
+    background-image: none;
+    background-color: black;
+    color: white;
+}

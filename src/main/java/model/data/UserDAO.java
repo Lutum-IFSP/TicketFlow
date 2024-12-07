@@ -77,6 +77,23 @@ public class UserDAO {
 		}
     }
 
+    public boolean update(User user) {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            em.merge(user);
+            em.getTransaction().commit();
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            em.close();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     public ArrayList<User> getAll() {
         EntityManager em = emf.createEntityManager();
