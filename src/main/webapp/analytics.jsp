@@ -115,7 +115,7 @@
 
             }
         </script>
-        <title><fmt:message key="analytics" /></title>
+        <title>TicketFlow - <fmt:message key="analytics" /></title>
     </head>
     <body onload="setData()">
         <div id="cir1" class="circle"></div>
@@ -128,7 +128,7 @@
 
             <div id="ticketFundo">
                 <div id="ticket">
-                    <h1>Analytics</h1>
+                    <h1><fmt:message key="analytics" /></h1>
                     <hr>
                     <div id="chart_div_tickets"></div>
                     <div id="chart_div_users"></div>
