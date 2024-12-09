@@ -47,6 +47,7 @@ public class AnalyticController extends HttpServlet {
         ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 
         users = userDao.getAll();
+        System.out.println(users.size());
         open = ticketDao.getByStage(Stage.OPEN);
         closed = ticketDao.getByStage(Stage.CLOSED);
         tickets.addAll(open);
@@ -57,8 +58,10 @@ public class AnalyticController extends HttpServlet {
             JSONObject object = new JSONObject();
             object.put("id", user.getId());
             object.put("username", user.getUsername());
+            object.put("role", String.valueOf(user.getRole()));
             arrayUsers.put(object);
         }
+        System.out.println(arrayUsers);
         
         JSONArray arrayOpen = new JSONArray();
         for (Ticket ticket : open) {
@@ -66,6 +69,7 @@ public class AnalyticController extends HttpServlet {
             object.put("id", ticket.getId());
             object.put("title", ticket.getTitle());
             object.put("stage", ticket.getStage());
+            object.put("open-date", ticket.getCreated());
             arrayOpen.put(object);
         }
         
@@ -75,6 +79,7 @@ public class AnalyticController extends HttpServlet {
             object.put("id", ticket.getId());
             object.put("title", ticket.getTitle());
             object.put("stage", ticket.getStage());
+            object.put("close-date", ticket.getClosed());
             arrayClosed.put(object);
         }
         
