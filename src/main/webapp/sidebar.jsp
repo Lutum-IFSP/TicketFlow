@@ -54,8 +54,8 @@
             </li>
         </c:if>
 
-        <li>
-            <a href="#">
+        <li onclick="setData()">
+            <a href="analytics.jsp">
                 <i class="bx bx-pie-chart-alt-2"></i>
                 <span class="links_name"><fmt:message key="analytics_tooltip" /></span>
             </a>

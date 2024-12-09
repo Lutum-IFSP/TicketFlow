@@ -178,6 +178,25 @@ public class TicketDAO {
 
         return listTickets;
     }
+    
+    @SuppressWarnings("unchecked")
+    @OrderBy("priority DESC")
+    public ArrayList<Ticket> getByStage(Stage stage) {
+        EntityManager em = emf.createEntityManager();
+        ArrayList<Ticket> listTickets = new ArrayList<Ticket>();
+
+        try {
+            Query query = em.createQuery("from " + Ticket.class.getName() + " where stage = :s");	
+            query.setParameter("s", stage);	
+			listTickets = (ArrayList<Ticket>) query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return listTickets;
+    }
 
     public Ticket getById(String id) {
         EntityManager em = emf.createEntityManager();
