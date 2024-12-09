@@ -164,9 +164,15 @@
 
                         <div id="botoes">
                             <a href="ticket/list?blockAudio=1"><input type="button" value="<fmt:message key="back_button" />"></a>
-                            <c:if test="${tech && ticket.stage == Stage.OPEN}" >
-                                <a><input type="button" onclick="openModalDelete()" value="<fmt:message key="close_button" />"></a>
-                            </c:if>
+                            <c:choose>
+                                <c:when test="${tech && ticket.stage == Stage.OPEN}">
+                                    <a><input type="button" onclick="openModalDelete()" value="<fmt:message key="close_button" />"></a>
+                                </c:when>
+                                
+                                <c:otherwise>
+                                    <a href="ticket/delete?id=${ticket.id}"><input type="button" value="Excluir chamado"></a>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
                 </div>

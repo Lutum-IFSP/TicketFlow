@@ -1,10 +1,14 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.cloudinary.Cloudinary;
 
@@ -44,7 +48,6 @@ public class AuthController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getRequestURI();
-        System.out.println(path);
         switch (path.substring(path.lastIndexOf("/") + 1, path.length())) {
             case "logout":
                 logout(req, resp);
@@ -69,7 +72,15 @@ public class AuthController extends HttpServlet {
             case "verify": 
                 verify(req, resp);
                 break;
-        
+
+            case "search":
+                searchUsers(req, resp);
+                break;
+
+            case "exists":
+                exists(req, resp);
+                break;
+
             default:
                 System.out.println("GAuthError: Error! Request not found!");
                 break;
@@ -96,10 +107,46 @@ public class AuthController extends HttpServlet {
                 update(req, resp);
                 break;
 
+            case "edit":
+                edit(req, resp);
+                break;
+
             default:
                 System.out.println("PAuthError: Error! Request not found!");
                 break;
         }
+    }
+
+    private void searchUsers(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        String searchTerm = req.getParameter("q");
+
+        searchTerm = searchTerm.replace("\"", "");
+
+        ArrayList<User> users = dao.searchByUsername(searchTerm);
+
+        JSONArray array = new JSONArray();
+        for (User user : users) {
+            if (user.getRole() != Role.ADMIN || (User) session.getAttribute("user") != null) {
+                if (((User) session.getAttribute("user")).getRole() == Role.ADMIN) {
+                    JSONObject object = new JSONObject();
+                    object.put("id", user.getId());
+                    object.put("username", user.getUsername());
+                    object.put("email", user.getEmail());
+                    object.put("role", user.getRole());
+                    object.put("image", user.getImage());
+                    array.put(object);
+                }
+            } else {
+                continue;
+            }
+        }
+
+        PrintWriter out = resp.getWriter();
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        out.println(array.toString());
+        out.flush();
     }
                 
     private void registerUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -126,10 +173,13 @@ public class AuthController extends HttpServlet {
         String newPassword = req.getParameter("password");
         User user = (User) req.getSession().getAttribute("user");
 
-        boolean status = dao.updatePassword(newPassword, user);
+        newPassword = Encryptor.encrypt(newPassword);
+        user.setPassword(newPassword);
+
+        boolean status = dao.update(user);
 
         req.setAttribute("status", status);
-        req.getRequestDispatcher("/user.jsp").forward(req, resp);
+        req.getRequestDispatcher("/settings.jsp").forward(req, resp);
     }
     
     private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -144,8 +194,7 @@ public class AuthController extends HttpServlet {
             session.setMaxInactiveInterval(60*60*24*7);
 			
             resp.sendRedirect(req.getContextPath() + "/ticket/list");
-		}
-		else {
+		} else {
             req.setAttribute("error", true);
 			req.getRequestDispatcher("/login.jsp").forward(req, resp);
 		}
@@ -161,13 +210,35 @@ public class AuthController extends HttpServlet {
         User user = (User) req.getSession().getAttribute("user");
         String password = req.getParameter("old-password");
 
-        if(Encryptor.verifyPassword(password, user.getPassword())) {
-            req.setAttribute("verified", true);
-        } else {
-            req.setAttribute("verified", false);
-        }
+        password = password.replace("\"", "");
 
-        req.getRequestDispatcher("/user.jsp").forward(req, resp);
+        boolean verified = (Encryptor.verifyPassword(password, user.getPassword())) ? true : false;
+
+        JSONObject obj = new JSONObject();
+        obj.put("verified", verified);
+
+        PrintWriter out = resp.getWriter();
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        out.println(obj.toString());
+        out.flush();
+    }
+
+    private void exists(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String username = req.getParameter("username");
+
+        username = username.replace("\"", "");
+
+        boolean verified = (dao.findByUsername(username) == null) ? true : false;
+
+        JSONObject obj = new JSONObject();
+        obj.put("verified", verified);
+
+        PrintWriter out = resp.getWriter();
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        out.println(obj.toString());
+        out.flush();
     }
     
     private void find(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -199,6 +270,30 @@ public class AuthController extends HttpServlet {
         req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
     }
 
+    private void edit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = req.getParameter("id");
+        String username = req.getParameter("username");
+        String email = req.getParameter("email");
+        Role role = Role.valueOf(req.getParameter("role-editarUser"));
+        Part image = req.getPart("image");
+        String url = "";
+
+        if (!image.getSubmittedFileName().isEmpty()) {
+            url = imageService.uploadPart(image, username);
+        }
+
+        User user = dao.findById(id);
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setRole(role);
+        if(!url.isEmpty()) {
+            user.setImage(url);
+        }
+        dao.update(user);
+
+        resp.sendRedirect(req.getContextPath() + "/settings.jsp?crud=1");
+    }
+
     private void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String email = req.getParameter("email");
@@ -228,6 +323,6 @@ public class AuthController extends HttpServlet {
 
         boolean status = dao.delete(user);
         req.setAttribute("status", status);
-        req.getRequestDispatcher("/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/settings.jsp").forward(req, resp);
     }
 }

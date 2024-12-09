@@ -8,3 +8,5 @@
 <c:if test="${not empty param.idioma}" >
     <fmt:setLocale value="${param.idioma}" scope="application" />
 </c:if>
+
+<meta http-equiv="refresh" content="0; url=settings.jsp">

@@ -40,25 +40,6 @@ public class UserDAO {
         }
     }
 
-    public boolean updatePassword(String newPassword, User user) {
-        EntityManager em = emf.createEntityManager();
-        String password = Encryptor.encrypt(newPassword);
-
-        try {
-            user.setPassword(password);
-            em.getTransaction().begin();
-            em.merge(user);
-            em.getTransaction().commit();
-
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            em.close();
-        }
-    }
-
     public boolean delete(User user) {
         EntityManager em = emf.createEntityManager();
 			
@@ -101,6 +82,24 @@ public class UserDAO {
 
         try {
             Query query = em.createQuery("from " + User.class.getName() + " where 1");		
+			listUsers = (ArrayList<User>) query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return listUsers;
+    }
+
+    @SuppressWarnings("unchecked")
+    public ArrayList<User> searchByUsername(String username) {
+        EntityManager em = emf.createEntityManager();
+        ArrayList<User> listUsers = new ArrayList<User>();
+
+        try {
+            Query query = em.createQuery("from " + User.class.getName() + " where username like concat('%', upper(:u), '%')");	
+            query.setParameter("u", username);	
 			listUsers = (ArrayList<User>) query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();

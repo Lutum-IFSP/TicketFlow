@@ -5,12 +5,36 @@ if (urlParams.get('user') != null) {
     user();
 }
 
+function validateUser(input) {
+    let inputField = document.getElementById(input);
+    let url = `user/exists?username="${input.value}"`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Requisição errada');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.verified) {
+                
+            } else {
+                input.setCustomValidity(document.getElementById("change-pass-msg").innerText);
+                input.reportValidity();
+            }
+        })
+        .catch(error => {
+            console.error("Erro: ", error);
+        });
+}
+
 function user(){
     let user = document.querySelector("div#painelUser")
     let customize = document.querySelector("div#customize")
     let croud = document.querySelector("div#croud")
     let creators = document.querySelector("div#creators")
-    let editarUser = document.querySelector("#editarUser")
+    let editarUser = document.getElementsByClassName("editarUser")[0]
 
     if(user.style.visibility == "hidden"){
         user.style.visibility = "visible"
@@ -40,7 +64,7 @@ function customize(){
     let format = document.querySelector("div#format")
     let croud = document.querySelector("div#croud")
     let creators = document.querySelector("div#creators")
-    let editarUser = document.querySelector("#editarUser")
+    let editarUser = document.getElementsByClassName("editarUser")[0]
 
     if(customize.style.visibility == "hidden"){
         user.style.visibility = "hidden"
@@ -69,7 +93,7 @@ function creators(){
     let customize = document.querySelector("div#customize")
     let croud = document.querySelector("div#croud")
     let creators = document.querySelector("div#creators")
-    let editarUser = document.querySelector("#editarUser")
+    let editarUser = document.getElementsByClassName("editarUser")[0]
 
     if(creators.style.visibility == "hidden"){
         user.style.visibility = "hidden"
@@ -96,10 +120,9 @@ function creators(){
 function croud(){
     let user = document.querySelector("div#painelUser")
     let customize = document.querySelector("div#customize")
-    let format = document.querySelector("div#format")
     let creators = document.querySelector("div#creators")
     let croud = document.querySelector("div#croud")
-    let editarUser = document.querySelector("#editarUser")
+    let editarUser = document.getElementsByClassName("editarUser")[0]
 
     if(croud.style.visibility == "hidden"){
         user.style.visibility = "hidden"
@@ -121,9 +144,29 @@ function croud(){
     }
 }
 
-function infoUsuarios(){
+function lang() {
+    let linguagens = document.getElementById("linguagens");
+
+    window.location.href = "lang.jsp?idioma=" + linguagens.value;
+}
+
+function infoUsuarios(id, username, email, role, image){
     let croud = document.querySelector("div#croud")
-    let editarUser = document.querySelector("#editarUser")
+    let editarUser = document.getElementsByClassName("editarUser")[0]
+    
+    let linkId = document.getElementById("a-user");
+    let idInput = document.getElementById("id-editarUser");
+    let usernameInput = document.getElementById("username-editarUser");
+    let emailInput = document.getElementById("email-editarUser");
+    let imageInput = document.getElementById("img-user-display");
+    let roleInput = document.getElementById("cargoUsuario");
+
+    linkId.href = id;
+    idInput.value = id;
+    usernameInput.value = username;
+    emailInput.value = email;
+    imageInput.src = image;
+    roleInput.value = role;
 
     if(editarUser.style.visibility == "hidden"){
         editarUser.style.visibility = "visible"
@@ -141,7 +184,7 @@ function infoUsuarios(){
 
 function voltarCrud(){
     let croud = document.querySelector("div#croud")
-    let editarUser = document.querySelector("#editarUser")
+    let editarUser = document.getElementsByClassName("editarUser")[0]
 
     if(croud.style.visibility == "hidden"){
         editarUser.style.visibility = "hidden"
@@ -154,23 +197,3 @@ function voltarCrud(){
         croud.style.opacity = "0"
     }
 }
-
-//Para aparecer o input de customizar a data
-const selectElement = document.getElementById('formData'); 
-let customizarData = document.querySelector("div#customizarData");
-
-selectElement.addEventListener('change', function () {
-    const selectedOption = selectElement.value; 
-    console.log('Opção selecionada:', selectedOption);
-    executarAcao(selectedOption);
-});
-
-function executarAcao(opcao) {
-    if (opcao === "op4") { 
-        customizarData.style.visibility = "visible";
-        customizarData.style.opacity = "1";
-    } else {
-        customizarData.style.visibility = "hidden"; 
-        customizarData.style.opacity = "0";
-    }
-}   

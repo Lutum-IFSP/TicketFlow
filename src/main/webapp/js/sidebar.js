@@ -54,6 +54,11 @@ function setList() {
             return response.json();
         })
         .then(data => {
+
+            if (data.length == 0) {
+                autocompleteClose();
+            }
+
             data.forEach(element => {
                 let file = ""
                 switch (element.priority) {

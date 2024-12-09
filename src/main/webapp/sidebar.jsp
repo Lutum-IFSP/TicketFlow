@@ -94,7 +94,7 @@
                             <c:otherwise>
                                 <fmt:message key="user_role" />
                             </c:otherwise>
-                    </c:choose>
+                        </c:choose>
                     </div>
                 </div>
             </div>

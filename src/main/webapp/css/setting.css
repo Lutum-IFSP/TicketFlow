@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
@@ -12,7 +12,7 @@ body {
     src: url("font/RobotoMono-VariableFont_wght.ttf");
 }
 
-main{
+main {
     font-family: RobotoMono;
     width: 100%;
     height: 100vh;
@@ -40,7 +40,7 @@ main{
     bottom: -28vw;
 }
 
-#user{
+#user {
     margin-left: 5.5%;
     width: 94.5%;
     height: 100vh;
@@ -50,7 +50,11 @@ main{
     position: relative;
 }
 
-#painelUser, #customize, #format, #creators, .editarUser{
+#painelUser,
+#customize,
+#format,
+#creators,
+.editarUser {
     width: 70%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -66,27 +70,27 @@ main{
     overflow-x: hidden;
 }
 
-#painelUser{
+#painelUser {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 1em;
 }
 
-#customize{
+#customize {
     display: flex;
     flex-direction: column;
     gap: 1em;
 }
 
-#customize div{
+#customize div {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 0.5em;
 }
 
-.imagemPerfil{
+.imagemPerfil {
     width: 20em;
     height: 100%;
     display: flex;
@@ -94,18 +98,18 @@ main{
     position: relative;
 }
 
-.imagemPerfil img{
+.imagemPerfil img {
     width: 100%;
     border-radius: 100%;
 }
 
-#creators{
+#creators {
     display: flex;
     flex-direction: column;
     max-height: 95vh;
 }
 
-.infoCriadores{
+.infoCriadores {
     width: 100%;
     height: 20%;
     padding: 0.5em;
@@ -114,21 +118,21 @@ main{
     gap: 0.5em;
 }
 
-#creators .infoCriadores > img{
+#creators .infoCriadores>img {
     width: 20vh;
     height: 20vh;
     border-radius: 100%;
     border: 2px solid #85891e;
 }
 
-.infoCriadores div{
+.infoCriadores div {
     width: 80%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
 
-.infoCriadores div > p{
+.infoCriadores div>p {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -136,12 +140,12 @@ main{
     gap: 0.2em;
 }
 
-.infoCriadores div p img{
+.infoCriadores div p img {
     width: 1.5em;
     height: 1.5em;
 }
 
-#opcoesSite{
+#opcoesSite {
     background: linear-gradient(to bottom left, #faffcdea, #efff96de);
     border: 1px solid white;
     width: 20%;
@@ -151,7 +155,7 @@ main{
     right: 1em;
 }
 
-#opcoesSite ul{
+#opcoesSite ul {
     list-style: none;
     height: 90%;
     width: 100%;
@@ -160,12 +164,12 @@ main{
     flex-direction: column;
 }
 
-#opcoesSite h3{
+#opcoesSite h3 {
     font-size: 1.8em;
     padding-left: 0.5em;
 }
 
-#opcoesSite ul li{
+#opcoesSite ul li {
     font-size: 1.5em;
     color: #282828;
     transition: 0.5s;
@@ -173,55 +177,91 @@ main{
     padding-left: 0.8em;
 }
 
-#final{
+#final {
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
 }
 
-#opcoesSite ul li:hover{
+#opcoesSite ul li:hover {
     background-color: #c1c6259d;
     color: white;
     cursor: pointer;
 }
 
-#infoConta{
+#infoConta form {
     display: flex;
     flex-direction: column;
     gap: 1em;
     margin-top: 1em;
-    width: 64%;
+    width: 100%;
 }
 
-#infoConta input:not(input[type='button']){
+#infoConta input:not(input[type='submit']) {
     background-color: transparent;
     border: 2px solid #93964acf;
     width: 100%;
-    height: 10%;
     padding: 0.5em;
     font-size: 18px;
-    color:#282828;
+    color: #282828;
     margin: .5em 0;
 }
 
-#infoConta input:not(input[type='button'])::placeholder{
+#infoConta input:not(input[type='button']) {
+    background-color: transparent;
+    border: 2px solid #93964acf;
+    width: 100%;
+    padding: 0.5em;
+    font-size: 18px;
+    color: #282828;
+    margin: .5em 0;
+}
+
+#infoConta input:not(input[type='button'])::placeholder {
     color: #282828;
     font-size: 18px;
 }
 
-#infoConta p{
+#infoConta input:not(input[type='submit'])::placeholder {
     color: #282828;
     font-size: 18px;
 }
 
-input[type='button']{
+#infoConta p {
+    color: #282828;
+    font-size: 18px;
+}
+
+input[type='button'] {
     background-color: #85891e;
     border: 1px solid #85891e;
     color: white;
     font-size: 1em;
     padding: 0.5em;
+    transition: 500ms;
 }
 
-.botoes{
+#infoConta input[type='submit'] {
+    background-color: #85891e;
+    border: 1px solid #85891e;
+    color: white;
+    font-size: 1em;
+    padding: 0.5em;
+    transition: 500ms;
+}
+
+#infoConta input[type='button']:hover {
+    filter: brightness(80%);
+    cursor: pointer;
+    transform: scale(90%);
+}
+
+#infoConta input[type='submit']:hover {
+    filter: brightness(80%);
+    cursor: pointer;
+    transform: scale(90%);
+}
+
+.botoes {
     display: flex;
     flex-direction: row;
     gap: 1em;
@@ -234,21 +274,21 @@ input[type='button']{
     height: 2em;
     right: 2%;
     bottom: 2%;
-    background-color: white; 
-    color: white; 
+    background-color: white;
+    color: white;
     border: none;
     border-radius: 100%;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     font-size: 2em;
 }
-  
+
 .edit-button i {
     pointer-events: none;
     color: black
 }
 
-.edit-button:hover i{
+.edit-button:hover i {
     color: #85891e;
 }
 
@@ -256,7 +296,7 @@ input[type='button']{
     display: none;
 }
 
-.onoff input.toggle + label {
+.onoff input.toggle+label {
     display: inline-block;
     position: relative;
     box-shadow: inset 0 0 0px 1px #74bf11;
@@ -265,7 +305,7 @@ input[type='button']{
     border-radius: 30px;
 }
 
-.onoff input.toggle + label:before {
+.onoff input.toggle+label:before {
     content: "";
     display: block;
     height: 1em;
@@ -275,7 +315,7 @@ input[type='button']{
     transition: 0.1s ease-in-out;
 }
 
-.onoff input.toggle + label:after {
+.onoff input.toggle+label:after {
     content: "";
     position: absolute;
     height: 1em;
@@ -288,30 +328,30 @@ input[type='button']{
     transition: 0.1s ease-in-out;
 }
 
-.onoff input.toggle:checked + label:before {
+.onoff input.toggle:checked+label:before {
     width: 2em;
     background: #c6ff43c9;
 }
 
-.onoff input.toggle:checked + label:after {
+.onoff input.toggle:checked+label:after {
     left: 1.3em;
     box-shadow: inset 0 0 0 1px #74bf11, 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 select {
     background-color: transparent;
-    border: 2px solid #74bf11;    
+    border: 2px solid #74bf11;
     color: #282828;
     padding: 0.2vw;
     font-size: 1em;
 }
 
-#customizarData{
+#customizarData {
     visibility: hidden;
     opacity: 0;
 }
 
-#customizarData #newData{
+#customizarData #newData {
     background-color: transparent;
     border: 2px solid #74bf11;
     width: 19vw;
@@ -319,11 +359,11 @@ select {
     font-size: 1em;
 }
 
-#customizarData input::placeholder{
+#customizarData input::placeholder {
     color: #282828;
 }
 
-input[type="color"]{
+input[type="color"] {
     border: none;
     background-color: transparent;
     width: 3.8em;
@@ -332,28 +372,28 @@ input[type="color"]{
     font-size: 13px;
 }
 
-hr{
+hr {
     border-color: #76bf11b6;
 }
 
 #claroEscuro input[type="radio"] {
     display: none;
-  }
-  
+}
+
 #claroEscuro {
     display: flex;
     align-items: center;
     cursor: pointer;
     margin: 8px 0;
 }
-  
+
 span {
     position: relative;
     padding-left: 30px;
     font-size: 16px;
     color: #333;
 }
-  
+
 #claroEscuro span::before {
     content: '';
     position: absolute;
@@ -367,26 +407,29 @@ span {
     background-color: transparent;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
-  
-#claroEscuro input[type="radio"]:checked + span::before {
+
+#claroEscuro input[type="radio"]:checked+span::before {
     background-color: #74bf11;
     box-shadow: 0 0 0 4px rgba(140, 255, 0, 0.2);
 }
-  
-#claroEscuro input[type="radio"]:focus + span::before {
+
+#claroEscuro input[type="radio"]:focus+span::before {
     outline: 2px solid rgba(140, 255, 0, 0.5);
 }
 
-#creators::-webkit-scrollbar, #croud::-webkit-scrollbar {
+#creators::-webkit-scrollbar,
+#croud::-webkit-scrollbar {
     width: 12px;
     contain: paint;
 }
 
-#creators::-webkit-scrollbar-track, #croud::-webkit-scrollbar-track {
+#creators::-webkit-scrollbar-track,
+#croud::-webkit-scrollbar-track {
     background: #e8ebab;
 }
 
-#creators::-webkit-scrollbar-thumb, #croud::-webkit-scrollbar-thumb {
+#creators::-webkit-scrollbar-thumb,
+#croud::-webkit-scrollbar-thumb {
     background-color: #929450;
     border-radius: 20px;
     border: 3px solid #e8ebab;
@@ -394,13 +437,15 @@ span {
 }
 
 #creators::-moz-scrollbar-button,
-#creators::-webkit-scrollbar-button, #croud::-moz-scrollbar-button, #croud::-webkit-scrollbar-button {
+#creators::-webkit-scrollbar-button,
+#croud::-moz-scrollbar-button,
+#croud::-webkit-scrollbar-button {
     width: 0px;
 }
 
 /* Css apenas para o settingADM.html */
 
-#croud{
+#croud {
     width: 78%;
     max-height: 100vh;
     overflow-y: auto;
@@ -415,7 +460,7 @@ span {
     padding: 1em;
 }
 
-#pesquisar{
+#pesquisar {
     background-color: white;
     border-radius: 20px;
     width: 85%;
@@ -427,23 +472,23 @@ span {
     padding: 0.2em 0.5em;
 }
 
-#pesquisar i{
+#pesquisar i {
     font-size: 2em;
 }
 
-#pesquisar input{
+#pesquisar input {
     width: 95%;
     height: 4em;
     border: none;
     font-size: 1em;
 }
 
-#pesquisar input::placeholder{
+#pesquisar input::placeholder {
     color: #464646;
     font-size: 1.5em;
 }
 
-.userInfo{
+.userInfo {
     width: 80%;
     background: linear-gradient(to bottom left, #f5fcb8ea, #ebfaaade);
     border: 1px solid white;
@@ -458,28 +503,29 @@ span {
     transition: 0.7s;
 }
 
-.userInfo:hover{
+.userInfo:hover {
     transform: scale(1.2);
     cursor: pointer;
     box-shadow: 0px 0px 5px 0px rgba(69, 85, 33, 0.349);
     background: linear-gradient(to bottom left, #e0ee5fa4, #e8fd87ad);
 }
 
-.userInfo img{
+.userInfo img {
     width: 5%;
     border-radius: 100%;
     border: 1px solid white;
 }
 
-.editarUser{
+.editarUser {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-start;
+    gap: 1em;
     position: relative;
     height: 60vh;
 }
 
-.editarUser select{
+.editarUser select {
     background-color: transparent;
     border: 2px solid #93964acf;
     width: 100%;
@@ -488,19 +534,127 @@ span {
     font-size: 18px;
 }
 
-.fecharInfoUser{
+.fecharInfoUser {
     height: 1em;
     width: 1em;
     position: absolute;
     right: 3em;
 }
 
-.fecharInfoUser i{
+.fecharInfoUser i {
     color: #85891e;
     font-size: 2em;
 }
 
-.fecharInfoUser i:hover{
+.fecharInfoUser i:hover {
     cursor: pointer;
     color: white;
+}
+
+#salvar:hover {
+    filter: brightness(80%);
+    cursor: pointer;
+}
+
+div#bg-change-pass {
+    position: absolute;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .2);
+    backdrop-filter: blur(5px);
+    width: 100%;
+    height: 100%;
+}
+
+div#area-change-pass {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div#modal-change-pass {
+    background: linear-gradient(to bottom, #ffffb66e, #e7f5d169);
+    border: 2px solid #ffffff8a;
+    padding: 50px 100px;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.2) 1px 0 19px 0px;
+}
+
+#modal-change-pass input[type="password"] {
+    width: 100%;
+    height: 5vh;
+    border: 0px;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    display: block;
+    /* background-color: #1d1d1d21; */
+}
+
+#modal-change-pass h2 {
+    text-align: center;
+    margin-bottom: 5%;
+    width: 100%;
+}
+
+#modal-change-pass button {
+    padding: 4% 20%;
+    border: 0px;
+    background-color: #93964a;
+    border-radius: 5px;
+    color: white;
+    transition: 5ms;
+}
+
+#modal-change-pass button:hover {
+    filter: brightness(80%);
+    cursor: pointer;
+}
+
+div#button-space {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+}
+
+.close {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    margin-top: -3em;
+    margin-left: 15.5em;
+    opacity: 0.3;
+}
+
+.close:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.close:before,
+.close:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: #333;
+}
+
+.close:before {
+    transform: rotate(45deg);
+}
+
+.close:after {
+    transform: rotate(-45deg);
+}
+
+#alterarSenha:hover {
+    cursor: pointer;
+    filter: brightness(80%);
+    transition: 5ms;
 }

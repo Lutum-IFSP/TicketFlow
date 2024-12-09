@@ -60,6 +60,10 @@ public class TicketController extends HttpServlet {
             case "close":
                 closeTicket(req, resp);
                 break;
+            
+            case "delete":
+                deleteTicket(req, resp);
+                break;
         
             default:
                 System.out.println("GTicketError: Error! Request not found!");
@@ -128,6 +132,16 @@ public class TicketController extends HttpServlet {
         ticket.setClosed(Instant.now());
 
         boolean status = dao.update(ticket);
+        req.setAttribute("deleteStatus", status);
+        req.setAttribute("blockAudio", true);
+
+        req.getRequestDispatcher("/ticket/list").forward(req, resp);
+    }
+
+    private void deleteTicket(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = req.getParameter("id");
+        
+        boolean status = dao.remove(id);
         req.setAttribute("deleteStatus", status);
         req.setAttribute("blockAudio", true);
 
