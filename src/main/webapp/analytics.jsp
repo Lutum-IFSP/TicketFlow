@@ -57,6 +57,11 @@
                         var qtdUser = 0;
                         var qtdTech = 0;
                         var qtdAdmin = 0;
+                        var qtdLow = 0;
+                        var qtdMid = 0;
+                        var qtdHigh = 0;
+                        var qtdUndef = 0;
+
                         users.forEach(user => {
                             if(user.role == "USER") {
                                 qtdUser++;
@@ -66,24 +71,56 @@
                                 qtdAdmin++;
                             }
                         })
+                        tickets.forEach(ticket => {
+                            if(ticket.priority == "UNDEFINED") {
+                                qtdUndef++;
+                            } else if(ticket.priority == "LOW") {
+                                qtdLow++;
+                            } else if(ticket.priority == "MID") {
+                                qtdMid++;
+                            } else if(ticket.priority == "HIGH") {
+                                qtdHigh++;
+                            }
+                        })
 
-                        function drawPieTickets() {
-                            dataPieTickets.addColumn('string', 'Stage');
-                            dataPieTickets.addColumn('number', 'qtd');
-                            dataPieTickets.addRows([
+                        function drawPieTicketsStage() {
+                            dataPieTicketsStage.addColumn('string', 'Stage');
+                            dataPieTicketsStage.addColumn('number', 'qtd');
+                            dataPieTicketsStage.addRows([
                                 ['Open', qtdOpen],
                                 ['Closed', qtdClosed]
                             ]);
                         
-                            var options = {'title':'Relatório de Tickets',
+                            var options = {'title':'Relatório de Tickets: Estágio',
                                         'width':400,
                                         'height':200,
                                         'pieHole': 0.4
                                         };
                             
-                            var chart = new google.visualization.PieChart(document.getElementById('chart_div_tickets'));
+                            var chart = new google.visualization.PieChart(document.getElementById('chart_div_tickets_stage'));
                             
-                            chart.draw(dataPieTickets, options);
+                            chart.draw(dataPieTicketsStage, options);
+                        }
+                        
+                        function drawPieTicketsPrior() {
+                            dataPieTicketsPriority.addColumn('string', 'Priority');
+                            dataPieTicketsPriority.addColumn('number', 'qtd');
+                            dataPieTicketsPriority.addRows([
+                                ['Undefined', qtdUndef],
+                                ['Low', qtdLow],
+                                ['Medium', qtdMid],
+                                ['High', qtdHigh]
+                            ]);
+                        
+                            var options = {'title':'Relatório de Tickets: Prioridade',
+                                        'width':400,
+                                        'height':200,
+                                        'pieHole': 0.4
+                                        };
+                            
+                            var chart = new google.visualization.PieChart(document.getElementById('chart_div_tickets_prior'));
+                            
+                            chart.draw(dataPieTicketsPriority, options);
                         }
 
                         function drawPieUsers() {
@@ -106,8 +143,9 @@
                             chart.draw(dataPieUsers, options);
 
                         }
-
-                        drawPieTickets();
+                        
+                        drawPieTicketsStage();
+                        drawPieTicketsPrior();
                         drawPieUsers();
 
                     })
@@ -130,7 +168,8 @@
                 <div id="ticket">
                     <h1><fmt:message key="analytics" /></h1>
                     <hr>
-                    <div id="chart_div_tickets"></div>
+                    <div id="chart_div_tickets_stage"></div>
+                    <div id="chart_div_tickets_prior"></div>
                     <div id="chart_div_users"></div>
                 </div>
             </div>

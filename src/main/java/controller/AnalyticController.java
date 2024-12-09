@@ -69,7 +69,6 @@ public class AnalyticController extends HttpServlet {
             object.put("id", ticket.getId());
             object.put("title", ticket.getTitle());
             object.put("stage", ticket.getStage());
-            object.put("open-date", ticket.getCreated());
             arrayOpen.put(object);
         }
         
@@ -79,7 +78,6 @@ public class AnalyticController extends HttpServlet {
             object.put("id", ticket.getId());
             object.put("title", ticket.getTitle());
             object.put("stage", ticket.getStage());
-            object.put("close-date", ticket.getClosed());
             arrayClosed.put(object);
         }
         
@@ -89,6 +87,7 @@ public class AnalyticController extends HttpServlet {
             object.put("id", ticket.getId());
             object.put("title", ticket.getTitle());
             object.put("stage", ticket.getStage());
+            object.put("priority", String.valueOf(ticket.getPriority()));
             arrayTickets.put(object);
         }
 
