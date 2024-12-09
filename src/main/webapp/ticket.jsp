@@ -170,7 +170,7 @@
                                 </c:when>
                                 
                                 <c:otherwise>
-                                    <a href="ticket/delete?id=${ticket.id}"><input type="button" value="Excluir chamado"></a>
+                                    <a href="ticket/delete?id=${ticket.id}"><input type="button" value="<fmt:message key="delete_ticket" />"></a>
                                 </c:otherwise>
                             </c:choose>
                         </div>

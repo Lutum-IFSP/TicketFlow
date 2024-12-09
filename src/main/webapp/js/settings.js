@@ -4,6 +4,9 @@ const urlParams = new URLSearchParams(queryString);
 if (urlParams.get('user') != null) {
     user();
 }
+if (urlParams.get('customize') != null) {
+    customize();
+}
 
 function validateUser(input) {
     let inputField = document.getElementById(input);

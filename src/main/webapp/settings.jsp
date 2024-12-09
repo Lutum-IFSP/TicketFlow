@@ -84,7 +84,8 @@
                 <hr>
                 <div id="traduzir">
                     <label for="linguagens"><fmt:message key="language" /></label>
-                    <select id="linguagens" name="linguagens" onchange="lang()">
+                    <select id="linguagens" name="linguagens">
+                        <option value="" selected disabled hidden><fmt:message key="choose_here" /></option>
                         <option value="pt_BR">Português Brasil</option>
                         <option value="en_EN">English</option>
                         <option value="es_ES">Spanish</option>
@@ -306,11 +307,10 @@
 <p id="search-msg" style="display: none;"><fmt:message key="search_label" /></p>
 <p id="create-user" style="display: none;"><fmt:message key="create_user" /></p>
 <script>
-    function lang() {
-        let linguagens = document.getElementById("linguagens");
-
+    let linguagens = document.getElementById("linguagens");
+    linguagens.addEventListener("change", e => {
         window.location.href = "lang.jsp?idioma=" + linguagens.value;
-    }
+    });
 </script>
 <c:if test="${adm}" >
     <script src="js/users_search.js"></script>
