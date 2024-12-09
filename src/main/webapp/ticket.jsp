@@ -179,7 +179,7 @@
             </div>
         </main>
 
-        <div id="confirm-vignette">
+        <div id="confirm-vignette" style="display: none">
             <div id="confirm-modal">
                 <div id="confirm-info">
                     <i class='bx bx-x-circle img'></i>
