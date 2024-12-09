@@ -44,8 +44,10 @@ public class UserDAO {
         EntityManager em = emf.createEntityManager();
 			
 		try {
+            new TicketDAO(emf).deleteByUser(user);
+
 			em.getTransaction().begin();
-			em.remove(user);
+			em.remove(em.find(User.class, user.getId()));
 			em.getTransaction().commit();
 			return true;
 		}

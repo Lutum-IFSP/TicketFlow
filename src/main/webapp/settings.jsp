@@ -162,7 +162,7 @@
                         <label for="pesquisarUser"></label>
                         <input type="text" id="pesquisarUser" onkeyup="setUsersList()" name="pesquisarUser" placeholder="<fmt:message key="search_label" />">
                     </div>
-                    <a href="register.jsp"><input type="button" value='<fmt:message key="create_user" />'/></a>
+                    <a href="register.jsp"><input type="button" value=''/></a>
                 </div>
 
                 <div class="editarUser" style="visibility: hidden; opacity: 0;">
@@ -232,7 +232,7 @@
                 <div id="modal-change-pass">
                     <a onclick="closeChangePass()" class="close"></a>
                     <h2><fmt:message key="change_password" /></h2>
-                    <input type="password" id="input-change-pass" placeholder="old_password">
+                    <input type="password" id="input-change-pass" placeholder="<fmt:message key="old_password" />">
                     <div id="button-space">
                         <button onclick="verify()"><fmt:message key="submit_button" /></button>
                     </div>
@@ -304,6 +304,14 @@
 <p id="confirm-pass" style="display: none;"><fmt:message key="confirm_password" /></p>
 <p id="submit-pass" style="display: none;"><fmt:message key="submit_button" /></p>
 <p id="search-msg" style="display: none;"><fmt:message key="search_label" /></p>
+<p id="create-user" style="display: none;"><fmt:message key="create_user" /></p>
+<script>
+    function lang() {
+        let linguagens = document.getElementById("linguagens");
+
+        window.location.href = "lang.jsp?idioma=" + linguagens.value;
+    }
+</script>
 <c:if test="${adm}" >
     <script src="js/users_search.js"></script>
 </c:if>

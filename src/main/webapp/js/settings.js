@@ -144,12 +144,6 @@ function croud(){
     }
 }
 
-function lang() {
-    let linguagens = document.getElementById("linguagens");
-
-    window.location.href = "lang.jsp?idioma=" + linguagens.value;
-}
-
 function infoUsuarios(id, username, email, role, image){
     let croud = document.querySelector("div#croud")
     let editarUser = document.getElementsByClassName("editarUser")[0]
@@ -161,7 +155,7 @@ function infoUsuarios(id, username, email, role, image){
     let imageInput = document.getElementById("img-user-display");
     let roleInput = document.getElementById("cargoUsuario");
 
-    linkId.href = id;
+    linkId.href = `user/delete?id=${id}`;
     idInput.value = id;
     usernameInput.value = username;
     emailInput.value = email;

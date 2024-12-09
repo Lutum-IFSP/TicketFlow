@@ -83,6 +83,28 @@ public class NoteDAO {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public void deleteByTicket(Ticket ticket) {
+        ArrayList<Note> notes = new ArrayList<>();
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            Query query = em.createQuery(String.format("from %s where ticket = :t order by send asc", Note.class.getName()));
+            query.setParameter("t", ticket);
+            notes = (ArrayList<Note>) query.getResultList();
+
+            for (Note note : notes) {
+                em.getTransaction().begin();
+                em.remove(note);
+                em.getTransaction().commit();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
     public boolean remove(Note note) {
         EntityManager em = emf.createEntityManager();
         

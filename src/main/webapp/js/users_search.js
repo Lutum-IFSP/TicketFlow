@@ -31,6 +31,10 @@ function setUsersList() {
                     list.innerHTML = list.innerHTML + string;
                 }
             });
+
+            list.innerHTML = list.innerHTML + `
+                <a href="register.jsp"><input type="button" value='${document.getElementById("create-user").innerText}'/></a>
+            `;
         })
         .catch(error => {
             console.error("Erro: ", error);

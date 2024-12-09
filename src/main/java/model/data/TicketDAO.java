@@ -123,6 +123,28 @@ public class TicketDAO {
     }
 
     @SuppressWarnings("unchecked")
+    public void deleteByUser(User user) {
+        EntityManager em = emf.createEntityManager();
+        ArrayList<Ticket> listTickets = new ArrayList<Ticket>();
+
+        try {
+            Query query = em.createQuery("from " + Ticket.class.getName() + " where user = :u");
+            query.setParameter("u", user);		
+			listTickets = (ArrayList<Ticket>) query.getResultList();
+            for (Ticket ticket : listTickets) {
+                new NoteDAO(emf).deleteByTicket(ticket);
+                em.getTransaction().begin();
+                em.remove(ticket);
+                em.getTransaction().commit();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    
     public ArrayList<Ticket> getByPriority(Priority priority) {
         EntityManager em = emf.createEntityManager();
         ArrayList<Ticket> listTickets = new ArrayList<Ticket>();
